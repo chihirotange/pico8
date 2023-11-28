@@ -16,9 +16,12 @@ function _init()
     bull_speed = -5
     
     --muzzle
-    muzzle_size = 8
-    muzzle_speed = 2
+    muzzle_size = 14
+    muzzle_speed = 3
     current_muzzle_size = muzzle_size
+    
+    --score
+    score = 5000
 end
 
 function _update()
@@ -92,11 +95,15 @@ function _draw()
     
     --muzzle
     if (current_muzzle_size > 0) then
-        circfill(ship_x + muzzle_speed, ship_y - 8, current_muzzle_size, 7)
+        circfill(ship_x + 4, ship_y - muzzle_size/3, current_muzzle_size/2, 7)
     end
 
     spr(bull_spr,bull_x,bull_y)
+
+    print("score: "..score, 40,10)
     debug()
+
+
 end
 
 function debug()
