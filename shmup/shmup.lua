@@ -22,6 +22,10 @@ function _init()
     
     --score
     score = 5000
+
+    --current_lives
+    max_lives = 7
+    current_lives = 4
 end
 
 function _update()
@@ -83,7 +87,7 @@ function _update()
 end
 
 function _draw()
-    cls()
+    cls(1)
     spr(ship_current_spr,ship_x,ship_y)
 
     --flame
@@ -100,13 +104,22 @@ function _draw()
 
     spr(bull_spr,bull_x,bull_y)
 
-    print("score: "..score, 40,10)
-    debug()
+    --lives
+    for i = 0,max_lives - 1 do
+        if current_lives > i then
+            spr(12, 1 + i*9,2)
+        else
+            spr(11, 1 + i *9,2)
+        end
+    end
+
+    print("score: "..score, 80,2, 8)
+    debug(80,110)
 
 
 end
 
-function debug()
-    print("ship x: " .. ship_x, 11)
-    print("ship y: " .. ship_y, 11)
+function debug(x,y)
+    print("ship x: " .. ship_x, x, y, 11)
+    print("ship y: " .. ship_y)
 end
