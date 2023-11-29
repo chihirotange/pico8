@@ -1,3 +1,4 @@
+-- #include starfield.lua
 function _init()
     raw_speed = 2
     current_x = 0
@@ -26,6 +27,15 @@ function _init()
     --current_lives
     max_lives = 7
     current_lives = 4
+
+    --starfield
+    stars_x = {}
+    stars_y = {}
+
+    for i=1,100 do
+        add(stars_x,rnd(127))
+        add(stars_y,rnd(127))
+    end
 end
 
 function _update()
@@ -84,6 +94,9 @@ function _update()
 
     --update bull position
     bull_y += bull_speed
+
+    --starfield
+    Starfield_Update()
 end
 
 function _draw()
@@ -112,6 +125,9 @@ function _draw()
             spr(11, 1 + i *9,2)
         end
     end
+
+    --starfield
+    Starfield_Draw()
 
     print("score: "..score, 80,2, 8)
     debug(80,110)
