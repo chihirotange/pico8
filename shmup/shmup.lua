@@ -31,10 +31,12 @@ function _init()
     --starfield
     stars_x = {}
     stars_y = {}
+    stars_sp = {}
 
     for i=1,100 do
         add(stars_x,rnd(127))
         add(stars_y,rnd(127))
+        add(stars_sp,rnd(1.5)+0.5)
     end
 end
 
@@ -102,6 +104,7 @@ end
 function _draw()
     cls(1)
     spr(ship_current_spr,ship_x,ship_y)
+    Starfield_Draw()
 
     --flame
     current_flame_spr += 1
@@ -127,7 +130,6 @@ function _draw()
     end
 
     --starfield
-    Starfield_Draw()
 
     print("score: "..score, 80,2, 8)
     debug(80,110)
