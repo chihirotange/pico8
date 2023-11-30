@@ -118,6 +118,10 @@ function _draw()
         circfill(ship_x + 4, ship_y - muzzle_size/3, current_muzzle_size/2, 7)
     end
 
+    --enemy
+    -- enemy:draw()
+
+    --bullet
     spr(bull_spr,bull_x,bull_y)
 
     --lives
@@ -132,12 +136,16 @@ function _draw()
     --starfield
 
     print("score: "..score, 80,2, 8)
-    debug(80,110)
 
+    for ent in all(entites) do
+        ent:draw()
+    end
+    debug(80,110)
 
 end
 
 function debug(x,y)
     print("ship x: " .. ship_x, x, y, 11)
     print("ship y: " .. ship_y)
+    print(count(entites))
 end
