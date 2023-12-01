@@ -13,20 +13,31 @@ class = setmetatable( {
 
 entity = class:new(
     {
+        -- @TODO: refactor, find better algorithm
         x = 0,
         y = 0,
         draw_order = -1,
         new = function(_ENV, tbl)
             tbl = class.new(_ENV, tbl)
-            
-                for i = 1,#entites do
-                    if tbl.draw_order >= entites[i].draw_order then
-                        printh("add")
-                        add(entites, tbl, i + 1)
-                        break
+            for i = 1,#entites do
+                if tbl.draw_order > entites[i].draw_order then
+                    add(entites, tbl, i + 1)
+                    break
+                else
+                    if tbl.draw_order != -1 then
+                        add(entites,tbl, i)
                     end
+                    break
                 end
+            end
+            if count(entites) == 0 and tbl.draw_order != -1 then
+                add(entites,tbl)
+            end
             return tbl
+        end,
+        update = function(_ENV)
+        end,
+        draw = function(_ENV)
         end
     }
 )
