@@ -1,14 +1,7 @@
-enemy = entity_spr:new({
-    x = 30,
-    y = 40,
+enemy_green = entity_spr:new({
+    draw_order = -1,
     sprid = 20,
-    draw_order = 250,
+    update = function(_ENV)
+        y +=1
+    end
 })
-enemy_orange = entity_spr:new(
-    {
-        x = 35,
-        y = 40,
-        sprid = 21,
-        draw_order = 100
-    }
-)

@@ -1,4 +1,3 @@
--- #include starfield.lua
 function _init()
     raw_speed = 2
     current_x = 0
@@ -22,21 +21,35 @@ function _init()
     current_muzzle_size = muzzle_size
     
     --score
-    score = 5000
+    score = entity:new({
+        draw_order = 100,
+        score = 1000,
+        draw = function (_ENV)
+            print("score: " .. score, 80, 2, 8)
+        end
+    })
+
+    --starfield
+    for i = 1, 100 do
+        starfield:new({
+            draw_order = 0,
+            x = rnd(127),
+            y = rnd(127),
+            speed = rnd(1.5) + 0.5
+        })
+    end
 
     --current_lives
     max_lives = 7
     current_lives = 4
 
-    --starfield
-    stars_x = {}
-    stars_y = {}
-    stars_sp = {}
-
-    for i=1,100 do
-        add(stars_x,rnd(127))
-        add(stars_y,rnd(127))
-        add(stars_sp,rnd(1.5)+0.5)
+    -- enemies
+    for i = 1,9 do
+        enemy_green:new({
+            draw_order = 10,
+            x = rnd(100),
+            y = rnd(10) + 10
+        })
     end
 end
 
@@ -98,13 +111,18 @@ function _update()
     bull_y += bull_speed
 
     --starfield
-    Starfield_Update()
+    -- Starfield_Update()
+
+    --entites
+    for ent in all(entites) do
+        ent:update()
+    end
 end
 
 function _draw()
     cls(1)
     spr(ship_current_spr,ship_x,ship_y)
-    Starfield_Draw()
+    -- Starfield_Draw()
 
     --flame
     current_flame_spr += 1
@@ -118,9 +136,6 @@ function _draw()
         circfill(ship_x + 4, ship_y - muzzle_size/3, current_muzzle_size/2, 7)
     end
 
-    --enemy
-    -- enemy:draw()
-
     --bullet
     spr(bull_spr,bull_x,bull_y)
 
@@ -133,19 +148,10 @@ function _draw()
         end
     end
 
-    --starfield
-
-    print("score: "..score, 80,2, 8)
-
+    --draw all "visible" entities
     for ent in all(entites) do
         ent:draw()
     end
-    debug(80,110)
+    debug(100, 80, {count(entites)})
 
-end
-
-function debug(x,y)
-    print("ship x: " .. ship_x, x, y, 11)
-    print("ship y: " .. ship_y)
-    print(count(entites))
 end
