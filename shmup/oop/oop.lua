@@ -1,5 +1,19 @@
 global = _ENV
-entites = {}
+entites = {
+    entities_list = {},
+    update = function(self)
+        for ent in all(self.entities_list) do
+            ent:update()
+        end
+    end,
+    draw = function(self)
+        for ent in all(self.entities_list) do
+            if (ent.draw_order != -1) then
+                ent:draw()
+            end
+        end
+    end
+}
 
 class = setmetatable( {
     new = function(_ENV, tbl)
@@ -14,6 +28,7 @@ class = setmetatable( {
 entity = class:new(
     {
         -- @TODO: refactor, find better algorithm
+        is_abstract = true,
         x = 0,
         y = 0,
         draw_order = -1,
@@ -21,17 +36,17 @@ entity = class:new(
             tbl = class.new(_ENV, tbl)
             for i = 1,#entites do
                 if tbl.draw_order > entites[i].draw_order then
-                    add(entites, tbl, i + 1)
+                    add(entites.entities_list, tbl, i + 1)
                     break
                 else
-                    if tbl.draw_order != -1 then
-                        add(entites,tbl, i)
+                    if not is_abstract then
+                        add(entites.entities_list,tbl, i)
                     end
                     break
                 end
             end
-            if count(entites) == 0 and tbl.draw_order != -1 then
-                add(entites,tbl)
+            if count(entites) == 0 and not tbl.is_abstract then
+                add(entites.entities_list,tbl)
             end
             return tbl
         end,
