@@ -1,9 +1,10 @@
-global = _ENV
 entites = {
     entities_list = {},
     update = function(self)
         for ent in all(self.entities_list) do
-            ent:update()
+            if ent.tick_enabled then
+                ent:update()
+            end
         end
     end,
     draw = function(self)
@@ -17,6 +18,7 @@ entites = {
 
 class = setmetatable( {
     -- objects that is_abstract are meant to be inherited
+    tick_enabled = false,
     is_abstract = true,
     new = function(_ENV, tbl)
         tbl = tbl or {}
@@ -27,8 +29,7 @@ class = setmetatable( {
     end
 }, {__index = _ENV})
 
-entity = class:new(
-    {
+entity = class:new({
         -- @TODO: refactor, find better algorithm
         x = 0,
         y = 0,
@@ -56,14 +57,28 @@ entity = class:new(
         end,
         draw = function(_ENV)
         end
-    }
-)
+    })
 
 -- sprite entities
-entity_spr = entity:new
-{
+entity_spr = entity:new({
+    tick_enabled = true,
     sprid = 0,
     draw = function(_ENV)
         spr(sprid, x, y)
     end
-}
+})
+
+-- texts are not update by tick by default
+entity_txt = entity:new({
+    draw_order = 1000,
+    txt = "",
+    txt_color = 7,
+    new = function(_ENV, input_tbl)
+        local tbl = entity.new(_ENV,input_tbl)
+        tbl.tick_enabled = false
+        return tbl
+    end,
+    draw = function(_ENV)
+        print(txt, x, y, txt_color)
+    end
+})

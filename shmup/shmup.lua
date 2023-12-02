@@ -70,19 +70,18 @@ function _init()
     current_muzzle_size = muzzle_size
     
     --score
-    score = entity:new({
-        draw_order = 100,
-        score = 1000,
-        draw = function (_ENV)
-            print("score: " .. score, 80, 2, 8)
-        end
-    })
+    -- score = entity:new({
+    --     draw_order = 100,
+    --     score = 1000,
+    --     draw = function (_ENV)
+    --         print("score: " .. score, 80, 2, 8)
+    --     end
+    -- })
 
     --starfield
     for i = 1, 100 do
         starfield:new({
             is_abstract = false,
-            draw_order = 0,
             x = rnd(127),
             y = rnd(127),
             speed = rnd(1.5) + 0.5
@@ -96,11 +95,19 @@ function _init()
     -- enemies
     for i = 1,9 do
         enemy_green:new({
-            draw_order = 10,
+            is_abstract = false,
             x = rnd(100),
             y = rnd(10) + 10
         })
     end
+
+    -- texts
+    text = entity_txt:new({
+        txt = "ai chan",
+        is_abstract = false,
+        x = 20,
+        y = 50,
+    })
 end
 
 function _update()
@@ -138,6 +145,6 @@ function _draw()
 
     -- --draw all "visible" entities
     entites:draw()
-    debug(100, 80,{count(all_bullets)})
+    debug(100, 80,{count(entites.entities_list)})
 
 end

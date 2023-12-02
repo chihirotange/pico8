@@ -1,4 +1,6 @@
 starfield = entity:new({
+    tick_enabled = true,
+    draw_order = 0,
     sc = 7,
     speed = 0,
     update = function(_ENV)
