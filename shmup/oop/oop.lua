@@ -16,6 +16,7 @@ entites = {
 }
 
 class = setmetatable( {
+    -- objects that is_abstract are meant to be inherited
     is_abstract = true,
     new = function(_ENV, tbl)
         tbl = tbl or {}
@@ -31,6 +32,7 @@ entity = class:new(
         -- @TODO: refactor, find better algorithm
         x = 0,
         y = 0,
+        -- object with draw_order = -1 will not be drawn
         draw_order = -1,
         new = function(_ENV, tbl)
             tbl = class.new(_ENV, tbl)
