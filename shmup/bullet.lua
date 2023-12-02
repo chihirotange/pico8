@@ -6,6 +6,8 @@ bullet = entity_spr:new(
         draw_order = 20,
         bullet_spd = 4,
         new = function(_ENV, tba)
+            -- must set tba abstract to true BEFORE calling parent constructor to add it to entity array
+            tba.is_abstract = false
             local tbl = nil
             for bullet in all(all_bullets) do
                 if bullet.reuse_ready then 
@@ -21,6 +23,7 @@ bullet = entity_spr:new(
             end
             if not tbl then
                 tbl = entity_spr.new(_ENV, tba)
+                printh(tbl.is_abstract)
                 add(all_bullets, tbl)
             end
             return tbl

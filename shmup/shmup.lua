@@ -51,7 +51,7 @@ function _init()
                 if btnp(4) then
                     bullet:new(
                         {
-                            is_abstract = false,
+                            -- is_abstract = false,
                             x = x,
                             y = y,
                         }
