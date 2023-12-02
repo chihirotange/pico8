@@ -47,6 +47,16 @@ function _init()
                 if (y < 0) then
                     y = 120
                 end
+
+                if btnp(4) then
+                    bullet:new(
+                        {
+                            is_abstract = false,
+                            x = x,
+                            y = y,
+                        }
+                    )
+                end
             end
         })
     bull_x = 0

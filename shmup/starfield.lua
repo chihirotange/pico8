@@ -14,6 +14,5 @@ starfield = entity:new({
             sc = 6
         end
         pset(x, y, sc)
-        printh(draw_order)
     end
 })

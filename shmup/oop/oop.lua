@@ -16,6 +16,7 @@ entites = {
 }
 
 class = setmetatable( {
+    is_abstract = true,
     new = function(_ENV, tbl)
         tbl = tbl or {}
         setmetatable(tbl,{
@@ -28,7 +29,6 @@ class = setmetatable( {
 entity = class:new(
     {
         -- @TODO: refactor, find better algorithm
-        is_abstract = true,
         x = 0,
         y = 0,
         draw_order = -1,
