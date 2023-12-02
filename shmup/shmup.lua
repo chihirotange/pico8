@@ -138,6 +138,6 @@ function _draw()
 
     -- --draw all "visible" entities
     entites:draw()
-    debug(100, 80,{count(entites.entities_list)})
+    debug(100, 80,{count(all_bullets)})
 
 end

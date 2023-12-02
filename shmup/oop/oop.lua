@@ -35,7 +35,7 @@ entity = class:new(
         -- object with draw_order = -1 will not be drawn
         draw_order = -1,
         new = function(_ENV, tbl)
-            tbl = class.new(_ENV, tbl)
+            local tbl = class.new(_ENV, tbl)
             for i = 1,#entites do
                 if tbl.draw_order > entites[i].draw_order then
                     add(entites.entities_list, tbl, i + 1)
