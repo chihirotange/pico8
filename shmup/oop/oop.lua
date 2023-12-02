@@ -2,9 +2,7 @@ entites = {
     entities_list = {},
     update = function(self)
         for ent in all(self.entities_list) do
-            if ent.tick_enabled then
-                ent:update()
-            end
+            ent:update()
         end
     end,
     draw = function(self)
@@ -18,7 +16,6 @@ entites = {
 
 class = setmetatable( {
     -- objects that is_abstract are meant to be inherited
-    tick_enabled = false,
     is_abstract = true,
     new = function(_ENV, tbl)
         tbl = tbl or {}
@@ -26,6 +23,8 @@ class = setmetatable( {
             __index = _ENV
         })
         return tbl
+    end,
+    update = function(_ENV)
     end
 }, {__index = _ENV})
 
@@ -53,22 +52,18 @@ entity = class:new({
             end
             return tbl
         end,
-        update = function(_ENV)
-        end,
         draw = function(_ENV)
         end
     })
 
 -- sprite entities
 entity_spr = entity:new({
-    tick_enabled = true,
     sprid = 0,
     draw = function(_ENV)
         spr(sprid, x, y)
     end
 })
 
--- texts are not update by tick by default
 entity_txt = entity:new({
     draw_order = 1000,
     txt = "",
