@@ -5,6 +5,7 @@ __lua__
 #include oop/oop.lua
 #include starfield.lua
 #include enemy.lua
+#include bullet.lua
 #include shmup.lua
 -- #include test.lua
 __gfx__

@@ -57,6 +57,7 @@ entity = class:new(
     }
 )
 
+-- sprite entities
 entity_spr = entity:new
 {
     sprid = 0,
