@@ -11,19 +11,13 @@ bullet = entity_spr:new(
             local tbl = nil
             for bullet in all(all_bullets) do
                 if bullet.reuse_ready then 
-                    -- reset bullet to init state
                     tbl = bullet
-                    tbl.draw_order = 20
-                    tbl.x = tba.x
-                    tbl.y = tba.y
-                    -- because this will re activate the bullet, hence make reuse_ready false
-                    tbl.reuse_ready = false
+                    tbl:_reset(tba.x, tba.y)
                     break
                 end
             end
             if not tbl then
                 tbl = entity_spr.new(_ENV, tba)
-                printh(tbl.is_abstract)
                 add(all_bullets, tbl)
             end
             return tbl
@@ -38,6 +32,13 @@ bullet = entity_spr:new(
                 reuse_ready = true
                 draw_order = -1
             end
+        end,
+        -- for pooling
+        _reset = function (_ENV, input_x, input_y)
+            draw_order = 20
+            x = input_x
+            y = input_y
+            reuse_ready = false
         end
     }
 )
