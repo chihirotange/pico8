@@ -64,11 +64,35 @@ entity = class:new({
 
 -- sprite entities
 entity_spr = entity:new({
+    w = 8,
+    h = 8,
     sprid = 0,
     draw = function(_ENV)
         spr(sprid, x, y)
     end
 })
+
+entity_spr_pool = entity_spr:new({
+    pool_id = "",
+    reuse_ready = false,
+    new = function(_ENV, tba)
+        local tbl = nil 
+        for ent in all(entities.entities_update_list) do
+            if ent.reuse_ready and ent.pool_id == pool_id then
+                tbl = ent
+                tbl:_reset(tba.x, tba.y)
+                break
+            end
+        end
+        if not tbl then
+            tbl = entity_spr.new(_ENV, tba)
+        end
+        return tbl
+    end,
+    _reset = function(_ENV, input_x, input_y)
+    end
+})
+
 
 entity_txt = entity:new({
     draw_order = 1000,

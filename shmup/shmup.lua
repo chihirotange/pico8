@@ -10,11 +10,11 @@ function _init()
     end
 
     -- enemies
-    for i = 1,9 do
+    for i = 1,200 do
         enemy_green:new({
             is_abstract = false,
-            x = rnd(100),
-            y = rnd(10) + 10
+            x = rnd(120),
+            y = 1
         })
     end
 
@@ -23,12 +23,14 @@ function _init()
 end
 
 function _update()
-   entities:update()
+    entities:update()
 end
 
 function _draw()
     cls(1)
     entities:draw()
-    debug(100, 80,{count(event_system.listeners)})
-
+    debug(80,100, {
+        count(entities.entities_update_list),
+        count(all_enemies)
+})
 end

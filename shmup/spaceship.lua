@@ -50,6 +50,7 @@
                     event_system:on_spaceship_shoot()
                     bullet:new(
                         {
+                            is_abstract = false,
                             x = x,
                             y = y,
                         }
