@@ -6,13 +6,13 @@
             draw_order = 50, 
             raw_speed = 2,
             raw_spr = 2,
+            -- muzzle_speed = 5,
             sprid = raw_spr,
             update = function(_ENV)
                 sprid = raw_spr
-
-                if (current_muzzle_size > 0) then
-                    current_muzzle_size -= muzzle_speed
-                end
+                -- if (current_muzzle_size > 0) then
+                --     current_muzzle_size -= muzzle_speed
+                -- end
                 if btn(0) then
                     x += -raw_speed
                     sprid = raw_spr + 1

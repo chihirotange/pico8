@@ -1,17 +1,5 @@
 function _init()
-    -- spaceship
-
-    bull_x = 0
-    bull_y = 0
-    bull_spr = 16
-    bull_speed = -5
-    
-    --muzzle
-    muzzle_size = 14
-    muzzle_speed = 3
-    current_muzzle_size = muzzle_size
-    
-    --starfield
+   --starfield
     for i = 1, 100 do
         starfield:new({
             is_abstract = false,
