@@ -132,16 +132,6 @@ function _draw()
 
     -- --bullet
     -- spr(bull_spr,bull_x,bull_y)
-
-    -- --lives
-    -- for i = 0,max_lives - 1 do
-    --     if current_lives > i then
-    --         spr(12, 1 + i*9,2)
-    --     else
-    --         spr(11, 1 + i *9,2)
-    --     end
-    -- end
-
     -- --draw all "visible" entities
     entites:draw()
     debug(100, 80,{count(entites.entities_list)})

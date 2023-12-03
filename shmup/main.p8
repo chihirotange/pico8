@@ -3,10 +3,14 @@ version 41
 __lua__
 #include utils/debug.lua
 #include oop/oop.lua
+
 #include starfield.lua
 #include enemy.lua
 #include bullet.lua
+#include player.lua
+
 #include shmup.lua
+
 -- #include test.lua
 __gfx__
 00000000000220000002200000022000000000000077770000777700000770000077770000777700000000000880088008800880000000000000000000000000
