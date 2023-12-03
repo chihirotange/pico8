@@ -1,12 +1,13 @@
-entites = {
-    entities_list = {},
+entities = {
+    entities_update_list = {},
+    entities_draw_list = {},
     update = function(self)
-        for ent in all(self.entities_list) do
+        for ent in all(self.entities_update_list) do
             ent:update()
         end
     end,
     draw = function(self)
-        for ent in all(self.entities_list) do
+        for ent in all(self.entities_draw_list) do
             if (ent.draw_order != -1) then
                 ent:draw()
             end
@@ -22,6 +23,9 @@ class = setmetatable( {
         setmetatable(tbl,{
             __index = _ENV
         })
+        if not tbl.is_abstract then
+            add(entities.entities_update_list,tbl)
+        end
         return tbl
     end,
     update = function(_ENV)
@@ -29,26 +33,29 @@ class = setmetatable( {
 }, {__index = _ENV})
 
 entity = class:new({
-        -- @TODO: refactor, find better algorithm
         x = 0,
         y = 0,
         -- object with draw_order = -1 will not be drawn
         draw_order = -1,
-        new = function(_ENV, tbl)
-            local tbl = class.new(_ENV, tbl)
-            for i = 1,#entites do
-                if tbl.draw_order > entites[i].draw_order then
-                    add(entites.entities_list, tbl, i + 1)
+        new = function(_ENV, input_tbl)
+            local tbl = class.new(_ENV, input_tbl)
+            for i = 1,#entities.entities_draw_list do
+                local current_ent = entities.entities_draw_list[i]
+                if tbl.is_abstract then
+                    return tbl
+                end
+                if tbl.draw_order > current_ent.draw_order then
+
+                    add(entities.entities_draw_list, tbl, i + 1)
                     break
-                else
-                    if not is_abstract then
-                        add(entites.entities_list,tbl, i)
-                    end
+                else 
+                    add(entities.entities_draw_list, tbl, i)
                     break
                 end
             end
-            if count(entites) == 0 and not tbl.is_abstract then
-                add(entites.entities_list,tbl)
+            if count(entities.entities_draw_list) == 0 and tbl.draw_order != -1 then
+                printh("first")
+                add(entities.entities_draw_list, tbl)
             end
             return tbl
         end,
