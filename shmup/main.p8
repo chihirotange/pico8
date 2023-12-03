@@ -3,6 +3,7 @@ version 41
 __lua__
 #include utils/debug.lua
 #include oop/oop.lua
+#include event_system.lua
 
 #include starfield.lua
 #include enemy.lua
