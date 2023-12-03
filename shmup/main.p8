@@ -8,6 +8,7 @@ __lua__
 #include enemy.lua
 #include bullet.lua
 #include player.lua
+#include spaceship.lua
 #include ui.lua
 
 #include shmup.lua

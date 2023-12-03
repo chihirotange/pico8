@@ -54,7 +54,6 @@ entity = class:new({
                 end
             end
             if count(entities.entities_draw_list) == 0 and tbl.draw_order != -1 then
-                printh("first")
                 add(entities.entities_draw_list, tbl)
             end
             return tbl
