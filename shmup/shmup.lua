@@ -17,6 +17,9 @@ function _init()
             y = rnd(10) + 10
         })
     end
+
+    --test
+    add(event_system.listeners, sound)
 end
 
 function _update()
@@ -26,6 +29,6 @@ end
 function _draw()
     cls(1)
     entities:draw()
-    debug(100, 80,{count(entities.entities_draw_list)})
+    debug(100, 80,{count(event_system.listeners)})
 
 end

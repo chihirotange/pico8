@@ -11,6 +11,7 @@ __lua__
 #include player.lua
 #include spaceship.lua
 #include ui.lua
+#include sound.lua
 
 #include shmup.lua
 

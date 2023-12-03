@@ -47,6 +47,7 @@
                 end
 
                 if btnp(4) then
+                    event_system:on_spaceship_shoot()
                     bullet:new(
                         {
                             x = x,
