@@ -68,15 +68,6 @@ function _init()
     muzzle_speed = 3
     current_muzzle_size = muzzle_size
     
-    --score
-    -- score = entity:new({
-    --     draw_order = 100,
-    --     score = 1000,
-    --     draw = function (_ENV)
-    --         print("score: " .. score, 80, 2, 8)
-    --     end
-    -- })
-
     --starfield
     for i = 1, 100 do
         starfield:new({
@@ -87,10 +78,6 @@ function _init()
         })
     end
 
-    --current_lives
-    max_lives = 7
-    current_lives = 4
-
     -- enemies
     for i = 1,9 do
         enemy_green:new({
@@ -99,41 +86,15 @@ function _init()
             y = rnd(10) + 10
         })
     end
-
-    -- texts
-    text = entity_txt:new({
-        txt = "ai chan",
-        is_abstract = false,
-        x = 20,
-        y = 50,
-    })
 end
 
 function _update()
-   entites:update()
+   entities:update()
 end
 
 function _draw()
     cls(1)
-    -- spr(sprid,ship_x,ship_y)
-    -- -- Starfield_Draw()
-
-    -- --flame
-    -- current_flame_spr += 1
-    -- if (current_flame_spr > ship_flame_spr + 4) then
-    --     current_flame_spr = ship_flame_spr
-    -- end
-    -- spr(current_flame_spr,ship_x,ship_y+8)
-    
-    -- --muzzle
-    -- if (current_muzzle_size > 0) then
-    --     circfill(ship_x + 4, ship_y - muzzle_size/3, current_muzzle_size/2, 7)
-    -- end
-
-    -- --bullet
-    -- spr(bull_spr,bull_x,bull_y)
-    -- --draw all "visible" entities
-    entites:draw()
-    debug(100, 80,{count(entites.entities_list)})
+    entities:draw()
+    debug(100, 80,{count(entities.entities_draw_list)})
 
 end
