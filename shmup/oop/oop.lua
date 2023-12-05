@@ -1,4 +1,5 @@
 entities = {
+    entities_colliders = {},
     entities_update_list = {},
     entities_draw_list = {},
     update = function(self)
@@ -12,6 +13,9 @@ entities = {
                 ent:draw()
             end
         end
+    end,
+    collider_detection = function(self)
+        -- TODO: implement logic
     end
 }
 
