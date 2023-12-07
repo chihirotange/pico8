@@ -21,6 +21,7 @@ function _init()
     --test
     add(event_system.listeners, sound)
     add(event_system.listeners, player)
+    add(event_system.listeners, gamestate)
 end
 
 function _update()

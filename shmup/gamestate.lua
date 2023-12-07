@@ -5,12 +5,12 @@ gamestate = {
         if self.current_state == "game" then
             entities:update()
         elseif self.current_state == "start" then
-            if btn(4) or btn(5) then
+            if btnp(4) or btnp(5) then
                 self.current_state = "game"
             end
         elseif self.current_state == "end" then
-            if btn(4) or btn(5) then
-                self.current_state = "start"
+            if btnp(4) or btnp(5) then
+                self.current_state = "game"
             end
         end
     end,
@@ -28,7 +28,12 @@ gamestate = {
             print("press X or O to start", 20, 50)
         elseif self.current_state == "end" then
             cls(1)
-            print("game over", 40, 50)
+            print("game over", 45, 50)
         end
     end,
+    on_event_received = function(self, tbl)
+       if tbl.event_id == event_system.on_player_died then 
+            self.current_state = "end"
+       end
+    end
 }
