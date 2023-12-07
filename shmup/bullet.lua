@@ -12,8 +12,7 @@ bullet = entity_spr_pool:new(
             
             -- destroy bullet
             if y <= 0 then
-                reuse_ready = true
-                draw_order = -1
+                _ENV:_return_pool()
             end
 
             -- collide with enemy
@@ -25,6 +24,7 @@ bullet = entity_spr_pool:new(
                         }
                     )
                     ene:destroy()
+                    _ENV:_return_pool()
                 end
             end
         end,

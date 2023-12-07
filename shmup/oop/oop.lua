@@ -95,6 +95,10 @@ entity_spr_pool = entity_spr:new({
         return tbl
     end,
     _reset = function(_ENV, input_x, input_y)
+    end,
+    _return_pool = function (_ENV)
+        reuse_ready = true
+        draw_order = -1
     end
 })
 
