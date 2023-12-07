@@ -1,3 +1,4 @@
+global = _ENV
 entities = {
     entities_update_list = {},
     entities_draw_list = {},

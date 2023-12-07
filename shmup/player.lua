@@ -3,12 +3,9 @@ player = entity:new({
     max_lives = 4,
     current_lives = 4,
     score = 0,
-    on_spaceship_collides_enemy = function(_ENV)
-        current_lives -= 1
-    end,
-    on_bullet_collide_enemy = function(_ENV)
-        printh("in player")
-        score += 1000
-        printh(score)
+    on_event_received = function(_ENV, tbl)
+        if tbl.event_id == event_system.on_spaceship_collides_enemy then
+            current_lives -= 1
+        end
     end
 })
