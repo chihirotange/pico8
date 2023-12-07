@@ -19,13 +19,12 @@ bullet = entity_spr_pool:new(
             -- collide with enemy
             for ene in all(all_enemies) do
                 if col(ene,_ENV) then
-                    ene:destroy()
-                    enemy_green:new(
+                    event_system:fire_event(
                         {
-                            x = rnd(120),
-                            y = 1
+                            event_id = event_system.on_bullet_collide_enemy
                         }
                     )
+                    ene:destroy()
                 end
             end
         end,

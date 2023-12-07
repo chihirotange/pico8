@@ -1,8 +1,9 @@
 sound = {
-    on_spaceship_shoot = function(self)
-        sfx(0)
-    end,
-    on_spaceship_collides_enemy = function(self, enemy)
-        sfx(1)
+    on_event_received = function(self,tbl)
+        if tbl.event_id == event_system.on_bullet_collide_enemy then
+            sfx(1)
+        elseif tbl.event_id == event_system.on_spaceship_shoot then
+            sfx(0)
+        end
     end
 }

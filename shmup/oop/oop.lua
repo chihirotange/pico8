@@ -1,3 +1,4 @@
+global = _ENV
 entities = {
     entities_colliders = {},
     entities_update_list = {},

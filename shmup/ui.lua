@@ -5,9 +5,13 @@ ui = entity:new({
     y = 1,
     score_ui = entity_txt:new(
         {
-            txt = "score: " .. player.score,
+            is_abstract = false,
             x = 80,
             y = 1,
+            update = function(_ENV)
+                txt = "score: " .. player.score
+            end
+
         }
     ),
     draw = function(_ENV)
