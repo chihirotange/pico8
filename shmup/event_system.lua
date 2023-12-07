@@ -15,5 +15,13 @@ event_system = {
             end
             listener:on_spaceship_collides_enemy() 
         end
+    end,
+    on_bullet_collide_enemy = function(self)
+        for listener in all(self.listeners) do
+            if listener.on_bullet_collide_enemy == nil then
+                return
+            end
+            listener:on_bullet_collide_enemy()
+        end
     end
 }

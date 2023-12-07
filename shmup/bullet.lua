@@ -19,6 +19,7 @@ bullet = entity_spr_pool:new(
             -- collide with enemy
             for ene in all(all_enemies) do
                 if col(ene,_ENV) then
+                    event_system:on_bullet_collide_enemy()
                     ene:destroy()
                 end
             end
