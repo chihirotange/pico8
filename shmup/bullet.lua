@@ -20,12 +20,6 @@ bullet = entity_spr_pool:new(
             for ene in all(all_enemies) do
                 if col(ene,_ENV) then
                     ene:destroy()
-                    enemy_green:new(
-                        {
-                            x = rnd(120),
-                            y = 1
-                        }
-                    )
                 end
             end
         end,

@@ -23,7 +23,7 @@ enemy_green = entity_spr_pool:new({
         end
         
         if y > 120 then
-            _ENV:_reset(rnd(120), 1)
+            _ENV:destroy()
         end
     end,
     destroy = function(_ENV)
