@@ -47,7 +47,6 @@
                 end
 
                 if btnp(4) then
-                    event_system:on_spaceship_shoot()
                     bullet:new(
                         {
                             is_abstract = false,
@@ -55,6 +54,9 @@
                             y = y,
                         }
                     )
+                    event_system:fire_event({
+                        event_id = event_system.on_spaceship_shoot
+                    })
                 end
             end
     })
