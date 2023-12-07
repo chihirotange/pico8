@@ -10,7 +10,7 @@ function _init()
     end
 
     -- enemies
-    for i = 1,25 do
+    for i = 1,5 do
         enemy_green:new({
             is_abstract = false,
             x = rnd(120),
@@ -20,6 +20,7 @@ function _init()
 
     --test
     add(event_system.listeners, sound)
+    add(event_system.listeners, player)
 end
 
 function _update()
