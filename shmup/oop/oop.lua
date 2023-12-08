@@ -77,9 +77,9 @@ entity_spr = entity:new({
     draw = function(_ENV)
         flash = max(0, flash - 1)
         if flash > 0 then
-            spr(flash_spr, x, y)
+            spr(flash_spr, x, y, w/8, h/8)
         else  
-            spr(sprid, x, y)
+            spr(sprid, x, y, w/8, h/8)
         end
     end
 })
