@@ -1,8 +1,8 @@
 sound = {
-    on_event_received = function(self,tbl)
-        if tbl.event_id == event_system.on_bullet_collide_enemy then
+    on_event_received = function(self,id)
+        if id == on_bullet_collide_enemy then
             sfx(1)
-        elseif tbl.event_id == event_system.on_spaceship_shoot then
+        elseif id == on_spaceship_shoot then
             sfx(0)
         end
     end

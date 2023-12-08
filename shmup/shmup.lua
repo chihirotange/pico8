@@ -19,8 +19,8 @@ function _init()
     end
 
     --test
-    add(event_system.listeners, sound)
-    add(event_system.listeners, player)
+    add(all_listeners, sound)
+    add(all_listeners, player)
 end
 
 function _update()

@@ -54,9 +54,7 @@
                             y = y,
                         }
                     )
-                    event_system:fire_event({
-                        event_id = event_system.on_spaceship_shoot
-                    })
+                    fire_event(on_spaceship_shoot)
                 end
             end
     })

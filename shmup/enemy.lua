@@ -19,9 +19,7 @@ enemy_green = entity_spr_pool:new({
         -- destroy enemy logics
         if (col(_ENV, spaceship)) then 
             _ENV:destroy()
-            event_system:fire_event({
-                event_id = event_system.on_spaceship_collides_enemy
-            })
+            fire_event(on_spaceship_collides_enemy)
         end
         if y > 120 then
             _ENV:destroy()
