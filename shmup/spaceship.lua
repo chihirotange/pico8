@@ -49,8 +49,8 @@
                 if invul <= 0 then
                     for ene in all(all_enemies) do
                         if col(ene, _ENV) then
-                                fire_event(on_spaceship_collides_enemy)
-                                invul = 400
+                            fire_event(on_spaceship_collides_enemy)
+                            invul = 60
                         end
                     end
                 end

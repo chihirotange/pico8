@@ -1,6 +1,7 @@
 all_enemies = {}
 
 enemy_green = entity_spr_pool:new({
+    hp = 2,
     pool_id = 'enemy_green',
     reuse_ready = false,
     draw_order = 50,
@@ -21,15 +22,18 @@ enemy_green = entity_spr_pool:new({
             _ENV:_reset(rnd(120), 0)
         end
     end,
-    destroy = function(_ENV)
-        _ENV:_return_pool()
-        del(all_enemies,_ENV)
-    end,
     _reset = function(_ENV, input_x, input_y)
         printh("reset enemy")
         x = input_x
         y = input_y
         reuse_ready = false
         draw_order = 50
+    end,
+    take_damage = function(_ENV)
+        hp -= 1
+        if hp <= 0 then
+            _ENV:_return_pool()
+            del(all_enemies,_ENV)
+        end
     end
 })
