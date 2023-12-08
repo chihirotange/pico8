@@ -1,9 +1,9 @@
 all_enemies = {}
 
 enemy_green = entity_spr_pool:new({
-    hp = 2,
+    hp = 10,
     pool_id = 'enemy_green',
-    reuse_ready = false,
+    flash_spr = 21,
     draw_order = 50,
     sprid = 20,
     new = function(_ENV, tba)
@@ -31,6 +31,7 @@ enemy_green = entity_spr_pool:new({
     end,
     take_damage = function(_ENV)
         hp -= 1
+        flash = 3
         if hp <= 0 then
             _ENV:_return_pool()
             del(all_enemies,_ENV)

@@ -18,9 +18,9 @@ bullet = entity_spr_pool:new(
             -- collide with enemy
             for ene in all(all_enemies) do
                 if col(ene,_ENV) then
-                    fire_event(on_bullet_collide_enemy)
                     ene:take_damage()
                     _ENV:_return_pool()
+                    fire_event(on_bullet_collide_enemy)
                 end
             end
         end,
