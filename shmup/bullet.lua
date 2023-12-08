@@ -24,12 +24,5 @@ bullet = entity_spr_pool:new(
                 end
             end
         end,
-        -- for pooling
-        _reset = function (_ENV, input_x, input_y)
-            draw_order = 20
-            x = input_x
-            y = input_y
-            reuse_ready = false
-        end
     }
 )

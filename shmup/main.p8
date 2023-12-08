@@ -12,6 +12,7 @@ __lua__
 #include player.lua
 #include spaceship.lua
 #include ui.lua
+#include explosion.lua
 
 #include sound.lua
 
