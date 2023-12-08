@@ -19,8 +19,14 @@ function _init()
     end
 
     --test
+<<<<<<< HEAD
     add(all_listeners, sound)
     add(all_listeners, player)
+=======
+    add(event_system.listeners, sound)
+    add(event_system.listeners, player)
+    add(event_system.listeners, gamestate)
+>>>>>>> 384ffccc371cdafef7265ee133d6e40fbaff76bd
 end
 
 function _update()

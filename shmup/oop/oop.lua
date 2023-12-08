@@ -1,5 +1,6 @@
 global = _ENV
 entities = {
+    entities_colliders = {},
     entities_update_list = {},
     entities_draw_list = {},
     update = function(self)
@@ -13,6 +14,9 @@ entities = {
                 ent:draw()
             end
         end
+    end,
+    collider_detection = function(self)
+        -- TODO: implement logic
     end
 }
 
@@ -91,6 +95,10 @@ entity_spr_pool = entity_spr:new({
         return tbl
     end,
     _reset = function(_ENV, input_x, input_y)
+    end,
+    _return_pool = function (_ENV)
+        reuse_ready = true
+        draw_order = -1
     end
 })
 

@@ -5,7 +5,9 @@
             y = 110,
             draw_order = 50, 
             raw_speed = 2,
+            bul_timer = 0,
             raw_spr = 2,
+            invul = 0,
             -- muzzle_speed = 5,
             sprid = raw_spr,
             update = function(_ENV)
@@ -29,24 +31,9 @@
                 if btn(3) then
                     y += raw_speed
                 end
-                -- stop when touch edge
-                if (x < 0) then
-                    x = 120
-                end
+                bul_timer -= 1
 
-                if (x > 120) then
-                    x = 0
-                end
-
-                if (y > 120) then
-                    y = 0
-                end
-
-                if (y < 0) then
-                    y = 120
-                end
-
-                if btnp(4) then
+                if btn(4) and bul_timer <= 0 then
                     bullet:new(
                         {
                             is_abstract = false,
@@ -55,6 +42,30 @@
                         }
                     )
                     fire_event(on_spaceship_shoot)
+                    event_system:fire_event({
+                        event_id = event_system.on_spaceship_shoot
+                    })
+                    bul_timer = 3
+                end
+
+                invul -= 1
+
+                for ene in all(all_enemies) do
+                    if col(ene, _ENV) then
+                        if invul <= 0 then
+                            event_system:fire_event({
+                                event_id = event_system.on_spaceship_collides_enemy
+                            })
+                            invul = 30
+                        end
+                    end
+                end
+            end,
+            draw = function(_ENV)
+                -- flashing when immu
+                if sin(time()*6) > 0.5 and invul > 0 then
+                else
+                    spr(sprid, x, y)
                 end
             end
     })

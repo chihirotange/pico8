@@ -9,7 +9,7 @@ ui = entity:new({
             x = 80,
             y = 1,
             update = function(_ENV)
-                txt = "score: " .. player.score
+                txt = "score: " .. player.score .. "000"
             end
 
         }
