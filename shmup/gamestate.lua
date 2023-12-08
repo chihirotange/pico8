@@ -20,8 +20,9 @@ gamestate = {
             entities:draw()
             debug(80,100, 
             {
-                count(entities.entities_update_list),
-                count(all_enemies)
+                -- count(entities.entities_update_list),
+                count(all_enemies),
+                spaceship.invul
             })
         elseif self.current_state == "start" then
             cls(1)

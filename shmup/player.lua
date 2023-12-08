@@ -7,11 +7,9 @@ player = entity:new({
         if id == on_spaceship_collides_enemy then
             current_lives -= 1
             if current_lives == 0 then
-                event_system:fire_event({
-                    event_id = event_system.on_player_died
-                })
+                fire_event(on_player_died)
             end
-        elseif tbl.event_id == event_system.on_bullet_collide_enemy then
+        elseif id == on_bullet_collide_enemy then
             score += 1
         end
     end
