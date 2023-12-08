@@ -38,11 +38,11 @@
                         {
                             is_abstract = false,
                             x = x,
-                            y = y,
+                            y = y - 6,
                         }
                     )
                     fire_event(on_spaceship_shoot)
-                    bul_timer = 3
+                    bul_timer = 5
                 end
 
                 invul = max(0, invul - 1) 
