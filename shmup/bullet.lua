@@ -1,4 +1,4 @@
-bullet = entity_spr_pool:new(
+bullet = entity_spr:new(
     {
         pool_id = "bullet",
         sprid = 16,
@@ -12,14 +12,14 @@ bullet = entity_spr_pool:new(
             
             -- destroy bullet
             if y <= 0 then
-                _ENV:_return_pool()
+                _ENV:destroy()
             end
 
             -- collide with enemy
             for ene in all(all_enemies) do
                 if col(ene,_ENV) then
                     ene:take_damage()
-                    _ENV:_return_pool()
+                    _ENV:destroy()
                 end
             end
         end,

@@ -38,12 +38,30 @@ class = setmetatable( {
 }, {__index = _ENV})
 
 entity = class:new({
+        pool_id = "",
+        reuse_ready = false,
         x = 0,
         y = 0,
+        _cached_drorder = -1,
         -- object with draw_order = -1 will not be drawn
         draw_order = -1,
         new = function(_ENV, input_tbl)
-            local tbl = class.new(_ENV, input_tbl)
+            _cached_drorder = input_tbl.draw_order
+            local tbl = nil
+            for ent in all(entities.entities_update_list) do
+                if ent.reuse_ready and ent.pool_id == pool_id then
+                    tbl = ent
+                    tbl:_reset()
+                    tbl.draw_order = _cached_drorder
+                    tbl.reuse_ready = false
+                    tbl.x = input_tbl.x
+                    tbl.y = input_tbl.y
+                    return
+                end
+            end
+            if not tbl then
+                tbl = class.new(_ENV, input_tbl)
+            end
             for i = 1,#entities.entities_draw_list do
                 local current_ent = entities.entities_draw_list[i]
                 if tbl.is_abstract then
@@ -63,11 +81,16 @@ entity = class:new({
             end
             return tbl
         end,
+        destroy = function(_ENV)
+            reuse_ready = true
+            draw_order = -1
+        end,
         draw = function(_ENV)
+        end,
+        _reset = function(_ENV)
         end
     })
 
--- sprite entities
 entity_spr = entity:new({
     w = 8,
     h = 8,
@@ -83,39 +106,6 @@ entity_spr = entity:new({
         end
     end
 })
-
-entity_spr_pool = entity_spr:new({
-    _cached_drorder = -1,
-    pool_id = "",
-    reuse_ready = false,
-    new = function(_ENV, tba)
-        _cached_drorder = tba.draw_order
-        local tbl = nil 
-        for ent in all(entities.entities_update_list) do
-            if ent.reuse_ready and ent.pool_id == pool_id then
-                tbl = ent
-                tbl:_reset()
-                tbl.draw_order = _cached_drorder
-                tbl.reuse_ready = false
-                tbl.x = tba.x
-                tbl.y = tba.y
-                break
-            end
-        end
-        if not tbl then
-            tbl = entity_spr.new(_ENV, tba)
-        end
-        return tbl
-    end,
-    -- this reset is for derived classes to add additional logics
-    _reset = function(_ENV)
-    end,
-    _return_pool = function (_ENV)
-        reuse_ready = true
-        draw_order = -1
-    end
-})
-
 
 entity_txt = entity:new({
     draw_order = 1000,

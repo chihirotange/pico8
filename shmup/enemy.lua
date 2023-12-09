@@ -1,13 +1,13 @@
 all_enemies = {}
 
-enemy_green = entity_spr_pool:new({
+enemy_green = entity_spr:new({
     hp = 4,
     pool_id = 'enemy_green',
     flash_spr = 21,
     draw_order = 50,
     sprid = 20,
     new = function(_ENV, tba)
-        local tbl = entity_spr_pool.new(_ENV, tba)
+        local tbl = entity_spr.new(_ENV, tba)
         add(all_enemies,tbl)
         return tbl
     end,
@@ -19,8 +19,8 @@ enemy_green = entity_spr_pool:new({
         x += (rnd() - 0.5) * 3
         -- destroy enemy logics
         if y > 120 then
-            _ENV:_reset(rnd(120), 0)
-
+            _ENV:destroy()
+            del(all_enemies,_ENV)
         end
     end,
     take_damage = function(_ENV)
@@ -32,7 +32,7 @@ enemy_green = entity_spr_pool:new({
                 y = y,
                 is_abstract = false,
             })
-            _ENV:_return_pool()
+            _ENV:destroy()
             del(all_enemies,_ENV)
         end
     end

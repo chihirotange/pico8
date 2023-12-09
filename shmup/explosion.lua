@@ -1,4 +1,4 @@
-explosion = entity_spr_pool:new( {
+explosion = entity_spr:new( {
     pool_id = "explosion",
     sprid = 64,
     draw_order = 100,
@@ -9,7 +9,7 @@ explosion = entity_spr_pool:new( {
         if reuse_ready == true then return end
         explode_time = max(0, explode_time - 1)
         if explode_time <= 0 then
-            _ENV:_return_pool()
+            _ENV:destroy()
             printh("returned to pool")
             explode_time = 30
         end
