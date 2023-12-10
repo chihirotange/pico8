@@ -9,12 +9,13 @@ function _init()
         })
     end
 
+
     -- enemies
     for i = 1,5 do
         enemy_green:new({
             is_abstract = false,
             x = rnd(120),
-            y = 1
+            y = 20
         })
     end
 

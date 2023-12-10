@@ -5,6 +5,7 @@ __lua__
 #include oop/oop.lua
 #include oop/collision.lua
 #include event_system.lua
+#include oop/particle.lua
 
 #include starfield.lua
 #include enemy.lua

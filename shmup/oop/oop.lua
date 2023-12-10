@@ -61,6 +61,7 @@ entity = class:new({
             end
             if not tbl then
                 tbl = class.new(_ENV, input_tbl)
+                tbl:_reset()
             end
             for i = 1,#entities.entities_draw_list do
                 local current_ent = entities.entities_draw_list[i]
