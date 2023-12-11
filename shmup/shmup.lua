@@ -15,7 +15,7 @@ function _init()
         enemy_green:new({
             is_abstract = false,
             x = rnd(120),
-            y = 20
+            y = 40
         })
     end
 

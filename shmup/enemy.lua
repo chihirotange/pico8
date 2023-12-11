@@ -23,7 +23,7 @@ enemy_green = entity_spr:new({
         hp -= 1
         flash = 3
         if hp <= 0 then
-            spawn_particle(x, y, 6)
+            spawn_particle(x, y, 2)
             _ENV:destroy()
             -- del(all_enemies,_ENV)
             _ENV:new({
