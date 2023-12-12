@@ -28,7 +28,7 @@ enemy_green = entity_spr:new({
             -- del(all_enemies,_ENV)
             _ENV:new({
                 x = rnd(120),
-                y = 20,
+                y = rnd(100),
                 is_abstract = false,
             })
         end
