@@ -1,6 +1,6 @@
 function _init()
    --starfield
-    for i = 1, 100 do
+    for i = 1, 50 do
         starfield:new({
             is_abstract = false,
             x = rnd(127),
@@ -11,11 +11,11 @@ function _init()
 
 
     -- enemies
-    for i = 1,20 do
+    for i = 1,50 do
         enemy_green:new({
             is_abstract = false,
             x = rnd(120),
-            y = rnd(100)
+            y = rnd(60)
         })
     end
 

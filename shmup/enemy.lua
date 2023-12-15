@@ -1,21 +1,16 @@
 all_enemies = {}
 
 enemy_green = entity_spr:new({
-    hp = 2,
-    pool_id = 'enemy_green',
+    hp = 5,
     flash_spr = 21,
     draw_order = 50,
     sprid = 20,
     new = function(_ENV, tba)
         local tbl = entity_spr.new(_ENV, tba)
-        printh("spawn new enemy")
         add(all_enemies,tbl)
         return tbl
     end,
     update = function(_ENV)
-        if reuse_ready then
-            return
-        end
         x += (rnd() - 0.5) * 3
         -- destroy enemy logics
     end,
@@ -23,14 +18,17 @@ enemy_green = entity_spr:new({
         hp -= 1
         flash = 3
         if hp <= 0 then
-            spawn_particle(x, y, 2)
+            spawn_particle(x, y, 10)
+            -- should be in this class destroy function but do this to save token
+            del(global.all_enemies, _ENV)
             _ENV:destroy()
-            -- del(all_enemies,_ENV)
-            _ENV:new({
-                x = rnd(120),
-                y = rnd(100),
-                is_abstract = false,
-            })
+            enemy_green:new(
+                {
+                    x = rnd(120),
+                    y = rnd(40),
+                    is_abstract = false
+                }
+            )
         end
     end
 })

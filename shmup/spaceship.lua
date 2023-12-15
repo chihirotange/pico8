@@ -42,7 +42,7 @@
                         }
                     )
                     fire_event(on_spaceship_shoot)
-                    bul_timer = 5
+                    bul_timer = 2
                 end
 
                 invul = max(0, invul - 1) 
