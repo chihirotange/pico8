@@ -18,7 +18,7 @@ enemy_green = entity_spr:new({
         hp -= 1
         flash = 3
         if hp <= 0 then
-            spawn_particle(x, y, 10)
+            spawn_particle(x, y, 6)
             -- should be in this class destroy function but do this to save token
             del(global.all_enemies, _ENV)
             _ENV:destroy()

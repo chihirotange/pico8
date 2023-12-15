@@ -18,10 +18,8 @@ gamestate = {
         if self.current_state == "game" then
             cls(1)
             entities:draw()
-            debug(80,50, 
+            debug(100,100, 
             {
-                count(entities.entities_update_list),
-                count(entities.entities_draw_list),
                 count(all_enemies)
             })
         elseif self.current_state == "start" then

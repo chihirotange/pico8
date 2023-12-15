@@ -11,7 +11,7 @@ function _init()
 
 
     -- enemies
-    for i = 1,50 do
+    for i = 1,10 do
         enemy_green:new({
             is_abstract = false,
             x = rnd(120),

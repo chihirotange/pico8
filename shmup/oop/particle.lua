@@ -8,16 +8,19 @@ particle = entity:new({
     draw = function(_ENV)
         age += 1
         normalize_age = age/max_age
-        cur_radius =  radius * (1 - normalize_age)
-        c = 10 
-        if normalize_age > 0.8 then
+        in_nor_age = 1 - normalize_age
+        cur_radius =  radius * in_nor_age
+        printh(normalize_age)
+        if normalize_age > 0.7 then
             c = 5
-        elseif normalize_age > 0.2  then 
+        elseif normalize_age > 0.5  then 
             c = 8
+        else
+            c = 10 
         end
         circfill(x, y, cur_radius, c)
-        x += spdx
-        y += spdy
+        x += spdx*in_nor_age
+        y += spdy*in_nor_age
         if normalize_age >= 1 then
             _ENV:destroy()
         end
@@ -25,12 +28,14 @@ particle = entity:new({
 })
 
 function spawn_particle(x, y, radius)
-    for i = 1,5 do
+    for i = 1,20 do
         particle:new({
-            max_age = 8 + rnd(14),
+            x = x,
+            y = y,
+            max_age = 8 + rnd(15),
             is_abstract = false,
-            x = x + radius * (rnd() - 0.5) * 2,
-            y = y + radius * (rnd() - 0.5) * 2
+            spdx = radius* (rnd() - 0.5),
+            spdy = radius * (rnd() - 0.5)
         })
     end
 end
