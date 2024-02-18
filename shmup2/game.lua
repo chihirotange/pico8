@@ -3,10 +3,10 @@ function _init()
 end
 
 function _update()
-    ship:update()
+    update_all_objects()
 end
 
 function _draw()
     cls()
-    ship:draw()
+    draw_all_objects()
 end

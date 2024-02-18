@@ -7,8 +7,10 @@ ship = create_object({
 
     update = function(self)
         local _ENV = self
-        sx = 0
-        sy = 0
+        -- "drag, friction"
+        sx *= 0.5
+        sy *= 0.5
+
         if btn(0) then
             sx = -2
         end
@@ -26,7 +28,7 @@ ship = create_object({
         end
 
         if btn(4) then
-            printh("shoot")
+            create_bullet(x + 3, y)
         end
 
         -- update ship location
