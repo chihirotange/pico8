@@ -24,7 +24,7 @@ function create_bullet(_team, _x, _y, _r)
         end,
         draw = function(self)
             local _ENV = self
-            circfill(x + r, y + r, r)
+            circfill(x + r, y + r, r, 10)
         end
     })
 end
