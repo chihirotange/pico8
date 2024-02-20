@@ -7,7 +7,7 @@ function create_bullet(_team, _x, _y, _r)
         tags = {"can_deal_dmg"},
         w = _r * 2,
         h = _r * 2,
-        sy = 4,
+        sy = 5,
         sx = 0,
         update = function(self)
             local _ENV = self
@@ -26,5 +26,5 @@ function create_bullet(_team, _x, _y, _r)
             local _ENV = self
             circfill(x + r, y + r, r, 10)
         end
-    })
+    }, true)
 end

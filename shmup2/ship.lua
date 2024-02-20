@@ -4,11 +4,11 @@ ship = create_object({
     w = 8,
     h = 8,
     tag = "ship",
-    team = 1,
+    team = _team_player,
     sx = 0,
     sy = 0,
     spr_i = 2,
-    default_bul_timer = 5, --unit is frames
+    default_bul_timer = 10, --unit is frames
     bul_timer = 0,
     update = function(self)
         local _ENV = self
@@ -55,4 +55,4 @@ ship = create_object({
         local _ENV = self
         spr(spr_i, x, y)
     end
-})
+}, true)

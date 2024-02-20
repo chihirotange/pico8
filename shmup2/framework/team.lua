@@ -1,6 +1,3 @@
--- 0 = neutral
--- 1 = player
--- 2 = enemy
-add_team = function(obj, team_number)
-    obj.team = team_number
-end
+_team_neutral = 0
+_team_player = 1
+_team_enemy = 2

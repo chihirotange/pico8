@@ -5,7 +5,7 @@ function create_particle(_x, _y, _r, _c, _lifespan)
         r = _r,
         c = _c,
         lifetime = 0, -- unit is frame 
-        lifespan = _lifespan + rnd(20),
+        lifespan = _lifespan + rnd(5),
         update = function(self)
             _ENV = self
             lifetime += 1
@@ -23,7 +23,7 @@ end
 
 function create_part_system(x, y, _r, c, ls)
     local r = _r*2
-    for i = 1, 6 do
+    for i = 1, flr(r/4)  do
         create_particle(x + rnd(r) - r/2, y + rnd(r) - r/2, r/2 + rnd(r/2), c, ls)
     end
 end
