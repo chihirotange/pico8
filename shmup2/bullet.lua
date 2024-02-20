@@ -6,7 +6,7 @@ function create_bullet(_x, _y, _r)
         tag = "bullet",
         w = _r * 2,
         h = _r * 2,
-        sy = 3,
+        sy = 4,
         sx = 0,
         update = function(self)
             local _ENV = self
