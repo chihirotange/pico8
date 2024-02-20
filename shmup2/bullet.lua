@@ -1,23 +1,31 @@
-all_bullets = {}
-
-function create_bullet(x, y)
+function create_bullet(_x, _y, _r)
     local bullet = create_object({
-        x = x,
-        y = y,
-        r = 4,
-        sy = -6,
+        x = _x - _r,
+        y = _y - _r,
+        r = _r,
+        tag = "bullet",
+        w = _r * 2,
+        h = _r * 2,
+        sy = 3,
         sx = 0,
         update = function(self)
             local _ENV = self
-            y += sy
+            y -= sy
 
             if(y <= 0) then
                 destroy(self)
             end
+
+            --bullet collisions
+            for obj in all(all_objects) do
+                if obj.tag != "bullet" and col(self, obj) then
+                    destroy(self)
+                end
+            end
         end,
         draw = function(self)
             local _ENV = self
-            circfill(x , y, r)
+            circfill(x + r, y + r, r)
         end
     })
 end

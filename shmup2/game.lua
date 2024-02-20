@@ -1,5 +1,6 @@
 function _init()
-    printh("hello")
+    printh("start")
+    create_enemy(50, 20)
 end
 
 function _update60()

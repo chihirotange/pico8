@@ -1,6 +1,8 @@
 ship = create_object({
     x = 60,
     y = 110,
+    w = 8,
+    h = 8,
     sx = 0,
     sy = 0,
     spr_i = 2,
@@ -30,18 +32,19 @@ ship = create_object({
 
         if btn(4) then
             if bul_timer <= 0 then
-                create_bullet(x + 4, y)
+                create_bullet(x + 4, y - 4, 4)
                 bul_timer = default_bul_timer
+                sfx(0)
             end
         end
 
         -- update ship location
         x += sx
-        x = min(120, x)
-        x = max(0, x)
+        x = min(128, x)
+        x = max(-8, x)
         y += sy
-        y = min(120, y)
-        y = max(0, y)
+        y = min(128, y)
+        y = max(-8, y)
 
         bul_timer -= 1        
     end,

@@ -5,6 +5,11 @@ local all_objects = {}
 local pending_destroy_objects = {}
 
 object_base = setmetatable ({
+    x = 0,
+    y = 0,
+    w = 8,
+    h = 8,
+    tag = "",
     init = function(self)
     end,
     destroy = function(self)
