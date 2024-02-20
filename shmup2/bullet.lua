@@ -4,6 +4,7 @@ function create_bullet(x, y)
     local bullet = create_object({
         x = x,
         y = y,
+        r = 4,
         sy = -6,
         sx = 0,
         update = function(self)
@@ -16,7 +17,7 @@ function create_bullet(x, y)
         end,
         draw = function(self)
             local _ENV = self
-            circfill(x, y, 2)
+            circfill(x , y, r)
         end
     })
 end

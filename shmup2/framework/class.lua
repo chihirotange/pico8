@@ -5,6 +5,8 @@ local all_objects = {}
 local pending_destroy_objects = {}
 
 object_base = setmetatable ({
+    init = function(self)
+    end,
     destroy = function(self)
         add(pending_destroy_objects, self)
     end
@@ -38,8 +40,7 @@ end
 function create_object(tbl)
     local obj = tbl or {}
     setmetatable (obj, object_base)
+    obj:init()
     add(all_objects, obj)
-
-    printh(count(all_objects))
     return obj
 end

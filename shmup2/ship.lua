@@ -4,7 +4,8 @@ ship = create_object({
     sx = 0,
     sy = 0,
     spr_i = 2,
-
+    default_bul_timer = 1, --unit is frames
+    bul_timer = 0,
     update = function(self)
         local _ENV = self
         -- "drag, friction"
@@ -28,12 +29,21 @@ ship = create_object({
         end
 
         if btn(4) then
-            create_bullet(x + 3, y)
+            if bul_timer <= 0 then
+                create_bullet(x + 4, y)
+                bul_timer = default_bul_timer
+            end
         end
 
         -- update ship location
         x += sx
+        x = min(120, x)
+        x = max(0, x)
         y += sy
+        y = min(120, y)
+        y = max(0, y)
+
+        bul_timer -= 1        
     end,
 
     draw = function(self)
