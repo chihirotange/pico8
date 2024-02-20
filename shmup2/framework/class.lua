@@ -12,6 +12,18 @@ object_base = setmetatable ({
     tag = "",
     init = function(self)
     end,
+    on_overlap = function(self, other_obj)
+    end,
+    detect_collision = function(self)
+        for obj in all(all_objects) do
+            if col(self, obj) then
+                self:on_overlap(obj)
+                obj:on_overlap(self)
+            end
+        end
+    end,
+    update = function(self)
+    end,
     destroy = function(self)
         add(pending_destroy_objects, self)
     end
@@ -27,16 +39,16 @@ update_all_objects = function()
     -- clear table
     pending_destroy_objects = {}
 
+    -- collision update and object update
     for obj in all(all_objects) do
-        if obj.update != nil then
-            obj:update()
-        end
+        obj:update()
+        obj:detect_collision()
     end 
 end
 
 draw_all_objects = function()
     for obj in all(all_objects) do
-        if obj.draw != nil then
+        if obj.draw ~= nil then
             obj:draw()
         end
     end 

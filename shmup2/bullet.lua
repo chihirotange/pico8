@@ -1,8 +1,9 @@
-function create_bullet(_x, _y, _r)
+function create_bullet(_owner, _x, _y, _r)
     local bullet = create_object({
         x = _x - _r,
         y = _y - _r,
         r = _r,
+        owner = _owner,
         tag = "bullet",
         w = _r * 2,
         h = _r * 2,
@@ -15,12 +16,10 @@ function create_bullet(_x, _y, _r)
             if(y <= 0) then
                 destroy(self)
             end
-
-            --bullet collisions
-            for obj in all(all_objects) do
-                if obj.tag != "bullet" and col(self, obj) then
-                    destroy(self)
-                end
+        end,
+        on_overlap = function(self, other_obj)
+            if other_obj.team ~= nil and (self.owner.team ~= other_obj.team) then
+                self:destroy()
             end
         end,
         draw = function(self)

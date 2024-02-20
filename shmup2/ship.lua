@@ -3,6 +3,8 @@ ship = create_object({
     y = 110,
     w = 8,
     h = 8,
+    tag = "ship",
+    team = 1,
     sx = 0,
     sy = 0,
     spr_i = 2,
@@ -32,7 +34,7 @@ ship = create_object({
 
         if btn(4) then
             if bul_timer <= 0 then
-                create_bullet(x + 4, y - 4, 4)
+                create_bullet(self, x + 4, y - 4, 4)
                 bul_timer = default_bul_timer
                 sfx(0)
             end
