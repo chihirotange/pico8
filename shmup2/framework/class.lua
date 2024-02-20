@@ -9,7 +9,7 @@ object_base = setmetatable ({
     y = 0,
     w = 8,
     h = 8,
-    tag = "",
+    tags = {},
     init = function(self)
     end,
     on_overlap = function(self, other_obj)

@@ -5,6 +5,7 @@ __lua__
 #include framework/debug.lua
 #include framework/collision.lua
 #include framework/team.lua
+#include framework/utils.lua
 
 #include game.lua
 
