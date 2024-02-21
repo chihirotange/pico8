@@ -18,11 +18,7 @@ object_base = setmetatable ({
     on_overlap = function(self, other_obj)
     end,
     detect_collision = function(self)
-        for obj in all(all_collider_object) do
-            if col(self, obj) and not contains(pending_destroy_object, obj) then
-                self:on_overlap(obj)
-            end
-        end
+        
     end,
     update = function(self)
     end,
@@ -35,6 +31,11 @@ object_base.__index = object_base
 
 update_all_objects = function()
     --add pending add to object list
+    for pd_obj in all(pending_destroy_object) do
+        del(all_objects, pd_obj)
+        del(all_collider_object, pd_obj)
+    end
+    pending_destroy_object = {}
     for pa_obj in all(pending_add_objects) do
         add(all_objects, pa_obj)
         if pa_obj.have_collider then
@@ -43,19 +44,12 @@ update_all_objects = function()
     end
     pending_add_objects = {}
     
-    --destroy objects
-    for pd_obj in all(pending_destroy_object) do
-        del(all_objects, pd_obj)
-        del(all_collider_object, pd_obj)
-    end
-    pending_destroy_object = {}
-    -- collision update and object update
-    for obj in all(all_objects) do
-        obj:update()
-    end 
     for obj in all(all_collider_object) do
         obj:detect_collision()
     end
+    for obj in all(all_objects) do
+        obj:update()
+    end 
 end
 
 draw_all_objects = function()

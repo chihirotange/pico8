@@ -18,8 +18,17 @@ function create_bullet(_team, _x, _y, _r)
             end
         end,
         on_overlap = function(self, other_obj)
+            printh("bullet")
             if other_obj.team ~= nil and (self.team ~= other_obj.team) then
                 self:destroy()
+            end
+        end,
+        detect_collision = function(self)
+            for obj in all(all_collider_object) do
+                if col(self, obj) and not obj.pending_destroy then
+                    self:on_overlap(obj)
+                    obj:on_overlap(self)
+                end
             end
         end,
         draw = function(self)

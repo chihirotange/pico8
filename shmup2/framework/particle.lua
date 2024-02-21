@@ -7,7 +7,7 @@ function create_particle(_x, _y, _r, _c, _lifespan)
         lifetime = 0, -- unit is frame 
         lifespan = _lifespan + rnd(5),
         update = function(self)
-            _ENV = self
+            local _ENV = self
             lifetime += 1
             r *= 0.9
             if lifetime >= lifespan then
@@ -18,7 +18,7 @@ function create_particle(_x, _y, _r, _c, _lifespan)
             _ENV = self
             circfill(x, y, r, c)
         end
-    })
+    }, false)
 end
 
 function create_part_system(x, y, _r, c, ls)
