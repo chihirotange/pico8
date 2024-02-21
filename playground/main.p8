@@ -14,7 +14,6 @@ function _update()
     if (btn(3)) then
         rec_1.y += 2
     end
-    printh(col(rec_1, rec_2))
 end
 function _draw()
     cls(1)

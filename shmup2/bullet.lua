@@ -20,7 +20,6 @@ function create_bullet(_team, _loc, _vel, _spd, _r)
 
         end,
         on_overlap = function(self, other_obj)
-            printh("bullet")
             if other_obj.team ~= nil and (self.team ~= other_obj.team) then
                 self:destroy()
             end

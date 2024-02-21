@@ -1,9 +1,8 @@
 
                 
-function vector(x,y,z) return {x=x or 0,y=y or 0,z=z or 0} end
+function vector(x,y) return {x=x or 0,y=y or 0} end
 
--- function v_polar(l,a) return vector(l*sin(a),l*cos(a)) end
--- function v_rnd()      return v_polar(1,rnd())          end
+function v_rnd() return vector(sin(rnd()), cos(rnd())) end
 
 -- function v_cpy(v)     return vector(v.x,v.y,v.z) end
 -- function v_unpck(v)   return v.x, v.y, v.z end
@@ -12,14 +11,13 @@ function vector(x,y,z) return {x=x or 0,y=y or 0,z=z or 0} end
 -- function v_isvec(v)   return type(v)=="table" and type(v.x)=="number" and type(v.y)=="number" and type(v.z)=="number" end
 -- function v_eq(a,b)    return a.x==b.x and a.y==b.y and a.z==b.z end
 
-function v_add(a,b) return vector( a.x+b.x,  a.y+b.y,  a.z+b.z) end
+function v_add(a,b) return vector( a.x+b.x,  a.y+b.y) end
 -- function v_sub(a,b) return vector( a.x-b.x,  a.y-b.y,  a.z-b.z) end
-function v_scl(v,n) return vector( v.x*n,    v.y*n,    v.z*n  ) end
-v_mul=v_scl
-function v_div(v,n) return vector( v.x/n,    v.y/n,    v.z/n  ) end
+function v_mul(v,n) return vector( v.x*n,    v.y*n) end
+function v_div(v,n) return vector( v.x/n,    v.y/n) end
 -- function v_neg(v)   return vector(-v.x,     -v.y,     -v.z    ) end
 
-function v_dot(a,b)   return a.x*b.x+a.y*b.y+a.z*b.z end
+function v_dot(a,b)   return a.x*b.x+a.y*b.y end
 -- function v_cross(a,b) return vector(a.y*b.z-b.y*a.z, a.z*b.x-b.z*a.x, a.x*b.y-a.y*b.x) end
 function v_magsq(v)   return v_dot(v,v)          end
 function v_mag(v)     return sqrt(v_magsq(v))    end

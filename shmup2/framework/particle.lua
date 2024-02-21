@@ -1,7 +1,6 @@
-function create_particle(_x, _y, _r, _c, _lifespan)
+function create_particle(_loc, _r, _c, _lifespan)
     local particle = create_object({
-        x = _x,
-        y = _y,
+        loc = _loc,
         r = _r,
         c = _c,
         lifetime = 0, -- unit is frame 
@@ -16,14 +15,14 @@ function create_particle(_x, _y, _r, _c, _lifespan)
         end,
         draw = function(self)
             _ENV = self
-            circfill(x, y, r, c)
+            circfill(loc.x, loc.y, r, c)
         end
     }, false)
 end
 
-function create_part_system(x, y, _r, c, ls)
+function create_part_system(_loc, _r, c, ls)
     local r = _r*2
     for i = 1, flr(r/4)  do
-        create_particle(x + rnd(r) - r/2, y + rnd(r) - r/2, r/2 + rnd(r/2), c, ls)
+        create_particle(v_add(_loc, v_mul(v_rnd(), r/2)), r/2 + rnd(r/2), c, ls)
     end
 end

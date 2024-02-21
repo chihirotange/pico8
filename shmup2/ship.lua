@@ -43,7 +43,6 @@ ship = create_object({
 
         -- update ship location
         vel = v_mul(v_norm(vector(sx, sy)), 2)
-        printh(vel.x)
         loc = v_add(loc, vel)
 
         bul_timer -= 1        
