@@ -3,8 +3,9 @@ function create_particle(_loc, _r, _c, _lifespan)
         loc = _loc,
         r = _r,
         c = _c,
+        vel = v_rnd(),
         lifetime = 0, -- unit is frame 
-        lifespan = _lifespan + rnd(5),
+        lifespan = _lifespan + rnd(_lifespan),
         update = function(self)
             local _ENV = self
             lifetime += 1
@@ -12,6 +13,15 @@ function create_particle(_loc, _r, _c, _lifespan)
             if lifetime >= lifespan then
                 self:destroy()
             end
+            if lifetime > lifespan * 0.8 then
+                c = 5
+            elseif lifetime > lifespan * 0.5 then
+                c = 2
+            elseif lifetime > lifespan * 0.2 then
+                c = 10
+            end
+
+            loc = v_add(loc, v_mul(vel, 0.5))
         end,
         draw = function(self)
             _ENV = self

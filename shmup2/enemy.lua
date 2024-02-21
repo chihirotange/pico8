@@ -5,9 +5,8 @@ function create_enemy(_loc)
         on_overlap = function(self, other_obj)
             local _ENV = self
             if other_obj.team ~= nil and contains(other_obj.tags, "can_deal_dmg") then
-                create_part_system(loc, 10, 8, 15)
+                create_part_system(loc, 10, 8, 20)
                 self:destroy()
-                create_enemy(vector(rnd(120), 50))
             end
         end,
         draw = function(self)

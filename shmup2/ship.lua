@@ -8,14 +8,14 @@ ship = create_object({
     sx = 0,
     sy = 0,
     spr_i = 2,
-    bul_spd = 6,
-    default_bul_timer = 2, --unit is frames
+    bul_spd = 4,
+    default_bul_timer = 7, --unit is frames
     bul_timer = 0,
     update = function(self)
         local _ENV = self
         -- "drag, friction"
-        sx = 0
-        sy = 0
+        sx *= 0.2
+        sy *= 0.2
 
         if btn(0) then
             sx = -1
