@@ -7,8 +7,7 @@ pending_destroy_object = {}
 pending_add_objects = {}
 
 object_base = setmetatable ({
-    x = 0,
-    y = 0,
+    loc = v_zero,
     col_enable = false,
     w = 8,
     h = 8,

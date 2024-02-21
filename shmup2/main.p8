@@ -1,6 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 41
 __lua__
+#include framework/vector.lua
 #include framework/class.lua
 #include framework/debug.lua
 #include framework/collision.lua

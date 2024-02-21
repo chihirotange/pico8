@@ -1,7 +1,8 @@
-function create_bullet(_team, _x, _y, _r)
-    local bullet = create_object({
-        x = _x - _r,
-        y = _y - _r,
+function create_bullet(_team, _loc, _vel, _spd, _r)
+    create_object({
+        loc = _loc,
+        vel = _vel,
+        spd = _spd,
         r = _r,
         team = _team,
         tags = {"can_deal_dmg"},
@@ -11,11 +12,12 @@ function create_bullet(_team, _x, _y, _r)
         sx = 0,
         update = function(self)
             local _ENV = self
-            y -= sy
-
-            if(y <= -8) then
-                destroy(self)
+            loc = v_add(loc, v_mul(vel, spd))
+            
+            if loc.x > 128 or loc.x < 0 or loc.y < 0 or loc.y > 128 then
+                self:destroy()
             end
+
         end,
         on_overlap = function(self, other_obj)
             printh("bullet")
@@ -33,7 +35,7 @@ function create_bullet(_team, _x, _y, _r)
         end,
         draw = function(self)
             local _ENV = self
-            circfill(x + r, y + r, r, 10)
+            circfill(loc.x + r, loc.y + r, r, 10)
         end
     }, true)
 end
