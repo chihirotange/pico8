@@ -2,7 +2,7 @@
                 
 function vector(x,y) return {x=x or 0,y=y or 0} end
 
-function v_rnd() return vector(sin(rnd()), cos(rnd())) end
+function v_rnd() return v_norm(vector(sin(rnd()), cos(rnd()))) end
 
 -- function v_cpy(v)     return vector(v.x,v.y,v.z) end
 -- function v_unpck(v)   return v.x, v.y, v.z end

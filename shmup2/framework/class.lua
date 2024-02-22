@@ -33,6 +33,7 @@ update_all_objects = function()
     for pd_obj in all(pending_destroy_object) do
         del(all_objects, pd_obj)
         del(all_collider_object, pd_obj)
+        pd_obj = nil
     end
     pending_destroy_object = {}
     for pa_obj in all(pending_add_objects) do

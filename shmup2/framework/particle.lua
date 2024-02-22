@@ -9,7 +9,7 @@ function create_particle(_loc, _r, _c, _lifespan)
         update = function(self)
             local _ENV = self
             lifetime += 1
-            r *= 0.9
+            r *= 0.94
             if lifetime >= lifespan then
                 self:destroy()
             end
