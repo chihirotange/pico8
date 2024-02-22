@@ -1,7 +1,7 @@
 function _init()
     printh("start")
-    for i = 1,400 do
-        create_enemy(vector(rnd(120), rnd(50)))
+    for i = 1,1 do
+        create_enemy(vector(50, 50), _ene_basic)
     end
     -- create_enemy(100, 10)
 end

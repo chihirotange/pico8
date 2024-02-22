@@ -10,6 +10,9 @@ function create_bullet(_team, _loc, _vel, _spd, _r)
         h = _r * 2,
         sy = 5,
         sx = 0,
+        init = function(self)
+            printh(self.team)
+        end,
         update = function(self)
             local _ENV = self
             loc = v_add(loc, v_mul(vel, spd))
