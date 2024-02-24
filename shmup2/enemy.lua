@@ -17,11 +17,11 @@ function create_enemy(_loc, type)
             update = function(self)
                 local _ENV = self
                 -- shoot
-                -- if shoot_timer == 0 then
-                --     create_bullet(team, loc, v_down, 4, 4)
-                --     shoot_timer = shoot_delay
-                -- end
-                -- shoot_timer -= 1
+                if shoot_timer == 0 then
+                    create_bullet(team, loc, v_down, 4, 4)
+                    shoot_timer = shoot_delay
+                end
+                shoot_timer -= 1
 
                 -- move
                 if loc.x >= 120 or loc.x <= 0 then
@@ -32,7 +32,7 @@ function create_enemy(_loc, type)
                 end
                 loc = v_add(loc, v_mul(mov_dir, mov_spd))
 
-                -- create_part_system(v_add(loc, vector(4,4)), 7, 8, 30)
+                -- create_part_system(v_add(loc, vector(4,4)), 3, 8, 15)
             end,
             on_overlap = function(self, other_obj)
                 local _ENV = self
@@ -46,7 +46,7 @@ function create_enemy(_loc, type)
             end,
             draw = function(self)
                 local _ENV = self
-                rectfill(loc.x, loc.y, loc.x + w, loc.y + h, 7)
+                circfill(loc.x + 4, loc.y + 4, 4, 4)
             end
         }, true)
     else

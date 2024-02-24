@@ -1,20 +1,15 @@
 _type_bullet = "bullet"
 function create_bullet(_team, _loc, _vel, _spd, _r)
-    foo = _loc -- @TODO: global variable for temp, it's ugly but i don't know other way
-    create_object({
-        loc = _loc,
-        vel = _vel,
+    local bullet = create_object({
         spd = _spd,
         type = _type_bullet,
         r = _r,
-        team = _team,
         tags = {"can_deal_dmg"},
         w = _r * 2,
         h = _r * 2,
         sy = 5,
         sx = 0,
-        init = function(self)
-            self.loc = foo
+        init = function(self, atts)
         end,
         update = function(self)
             local _ENV = self
@@ -43,4 +38,9 @@ function create_bullet(_team, _loc, _vel, _spd, _r)
             circfill(loc.x + r, loc.y + r, r, 10)
         end
     }, true)
+    
+    -- respawn
+    bullet.team = _team
+    bullet.loc = _loc
+    bullet.vel = _vel
 end
