@@ -1,14 +1,19 @@
-_ene_basic = 1
+_type_ene_basic = "basic enemy"
 
 function create_enemy(_loc, type)
-    if type == _ene_basic then
+    foo = _loc
+    if type == _type_ene_basic then
         create_object({
             loc = _loc,
             team = _team_enemy,
+            type = _type_ene_basic,
             shoot_timer = 0, -- shoot delay in frame
             shoot_delay = 30,
             mov_spd = 1,
             mov_dir = v_rnd(),
+            init = function(self)
+                self.loc = foo
+            end,
             update = function(self)
                 local _ENV = self
                 -- shoot
@@ -27,15 +32,16 @@ function create_enemy(_loc, type)
                 end
                 loc = v_add(loc, v_mul(mov_dir, mov_spd))
 
-                create_part_system(v_add(loc, vector(4,4)), 10, 8, 30)
+                -- create_part_system(v_add(loc, vector(4,4)), 7, 8, 30)
             end,
             on_overlap = function(self, other_obj)
                 local _ENV = self
                 if other_obj.team ~= team
                     and contains(other_obj.tags, "can_deal_dmg") then
                     create_part_system(loc, 10, 8, 20)
-                    mov_dir = v_rnd()
-                    mov_spd += 0.5
+                    self:destroy()
+                    -- mov_dir = v_rnd()
+                    -- mov_spd += 0.5
                 end
             end,
             draw = function(self)

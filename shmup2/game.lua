@@ -1,9 +1,9 @@
 function _init()
     printh("start")
-    for i = 1,1 do
-        create_enemy(vector(50, 50), _ene_basic)
+    for i = 1,20 do
+        create_enemy(vector(50, 50), _type_ene_basic)
     end
-    -- create_enemy(100, 10)
+    -- create_enemy(vector(50,50), _type_ene_basic)
 end
 
 function _update60()
@@ -19,6 +19,6 @@ end
 function draw_debug()
     text_debug("objs", count(all_objects))
     text_debug("colliders", count(all_collider_object))
-    text_debug("pending_add", count(pending_add_objects))
-    text_debug("pending_destroy", count(pending_destroy_object))
+    -- text_debug("pending_add", count(pending_add_objects))
+    text_debug("objs in pool", count(pool_objects))
 end

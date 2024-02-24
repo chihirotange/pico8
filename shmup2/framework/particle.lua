@@ -1,11 +1,16 @@
 function create_particle(_loc, _r, _c, _lifespan)
+    foo = _loc
     local particle = create_object({
         loc = _loc,
         r = _r,
         c = _c,
+        type = "particle",
         vel = v_rnd(),
         lifetime = 0, -- unit is frame 
         lifespan = _lifespan + rnd(_lifespan),
+        init = function(self)
+            self.loc = foo
+        end,
         update = function(self)
             local _ENV = self
             lifetime += 1

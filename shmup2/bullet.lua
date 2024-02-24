@@ -1,8 +1,11 @@
+_type_bullet = "bullet"
 function create_bullet(_team, _loc, _vel, _spd, _r)
+    foo = _loc -- @TODO: global variable for temp, it's ugly but i don't know other way
     create_object({
         loc = _loc,
         vel = _vel,
         spd = _spd,
+        type = _type_bullet,
         r = _r,
         team = _team,
         tags = {"can_deal_dmg"},
@@ -11,7 +14,7 @@ function create_bullet(_team, _loc, _vel, _spd, _r)
         sy = 5,
         sx = 0,
         init = function(self)
-            printh(self.team)
+            self.loc = foo
         end,
         update = function(self)
             local _ENV = self

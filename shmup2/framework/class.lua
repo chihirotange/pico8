@@ -3,7 +3,7 @@ _G = _ENV
 _G.__index = _G
 all_objects = {}
 all_collider_object = {}
-pending_destroy_object = {}
+pool_objects = {}
 pending_add_objects = {}
 
 object_base = setmetatable ({
@@ -11,6 +11,7 @@ object_base = setmetatable ({
     col_enable = false,
     w = 8,
     h = 8,
+    type, -- object MUST HAVE type to be able to spawn from pool
     tags = {},
     init = function(self)
     end,
@@ -23,19 +24,19 @@ object_base = setmetatable ({
     end,
     destroy = function(self)
         self.pending_destroy = true
-        add(pending_destroy_object, self)
+        add(pool_objects, self)
     end
 }, _G)
 object_base.__index = object_base
 
 update_all_objects = function()
-    --add pending add to object list
-    for pd_obj in all(pending_destroy_object) do
+    -- add pending add to object list
+    for pd_obj in all(pool_objects) do
         del(all_objects, pd_obj)
         del(all_collider_object, pd_obj)
         pd_obj = nil
     end
-    pending_destroy_object = {}
+    -- pool_objects = {}
     for pa_obj in all(pending_add_objects) do
         add(all_objects, pa_obj)
         if pa_obj.have_collider then
@@ -61,12 +62,19 @@ draw_all_objects = function()
 end
 
 function create_object(tbl, have_collider)
-    local obj = tbl or {}
-    setmetatable (obj, object_base)
-    add(pending_add_objects, obj)
-    obj:init()
-    if have_collider then
-        obj.have_collider = true
+    local sp_obj = tbl or {}
+    -- check if available in pool 
+    for obj in all(pool_objects) do
+        if obj.type == tbl.type then
+            sp_obj = obj
+            del(pool_objects, obj)
+        end
     end
-    return obj
+    setmetatable (sp_obj, object_base)
+    add(pending_add_objects, sp_obj)
+    sp_obj:init()
+    if have_collider then
+        sp_obj.have_collider = true
+    end
+    return sp_obj
 end
