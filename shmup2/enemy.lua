@@ -4,11 +4,12 @@ function create_enemy(_loc, type)
     foo = _loc
     if type == _type_ene_basic then
         create_object({
+            _col = 4,
             loc = _loc,
             team = _team_enemy,
             type = _type_ene_basic,
             shoot_timer = 0, -- shoot delay in frame
-            shoot_delay = 30,
+            shoot_delay = 10,
             mov_spd = 1,
             mov_dir = v_rnd(),
             init = function(self)
@@ -16,11 +17,12 @@ function create_enemy(_loc, type)
             end,
             update = function(self)
                 local _ENV = self
+                -- _col = 4
                 -- shoot
-                if shoot_timer == 0 then
-                    create_bullet(team, loc, v_down, 4, 4)
-                    shoot_timer = shoot_delay
-                end
+                -- if shoot_timer == 0 then
+                --     create_bullet(team, loc, v_down, 4, 4)
+                --     shoot_timer = shoot_delay
+                -- end
                 shoot_timer -= 1
 
                 -- move
@@ -38,15 +40,18 @@ function create_enemy(_loc, type)
                 local _ENV = self
                 if other_obj.team ~= team
                     and contains(other_obj.tags, "can_deal_dmg") then
-                    create_part_system(loc, 10, 8, 20)
-                    self:destroy()
+                    -- create_part_system(loc, 10, 8, 20)
+                    -- self:destroy()
+                    _col = 8
                     -- mov_dir = v_rnd()
                     -- mov_spd += 0.5
+                -- else
+                    -- _col = 4
                 end
             end,
             draw = function(self)
                 local _ENV = self
-                circfill(loc.x + 4, loc.y + 4, 4, 4)
+                circfill(loc.x + 4, loc.y + 4, 4, _col)
             end
         }, true)
     else

@@ -1,6 +1,6 @@
 function _init()
     printh("start")
-    for i = 1,10 do
+    for i = 1,12 do
         create_enemy(vector(50, 50), _type_ene_basic)
     end
     -- create_enemy(vector(50,50), _type_ene_basic)

@@ -3,7 +3,7 @@ ship = create_object({
     vel = v_zero,
     w = 8,
     h = 8,
-    tag = "ship",
+    tags = {"ship", "can_deal_dmg"},
     team = _team_player,
     sx = 0,
     sy = 0,
@@ -46,6 +46,8 @@ ship = create_object({
         loc = v_add(loc, vel)
 
         bul_timer -= 1        
+
+        printh(count(bget(collider_bucket, loc)))
     end,
 
     draw = function(self)

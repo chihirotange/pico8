@@ -6,6 +6,8 @@ all_collider_object = {}
 pool_objects = {}
 pending_add_objects = {}
 
+collider_bucket = {size = 20, prop = "loc"}
+
 object_base = setmetatable ({
     loc = v_zero,
     col_enable = false,
@@ -18,7 +20,13 @@ object_base = setmetatable ({
     on_overlap = function(self, other_obj)
     end,
     detect_collision = function(self)
-        
+        local _ENV = self
+        for i in all(bget(collider_bucket, loc)) do
+            -- printh(count(bget(collider_bucket, loc)))
+            if col(self,i) and not i.pending_destroy then
+                i:on_overlap(self)
+            end
+        end   
     end,
     update = function(self)
     end,
@@ -46,8 +54,10 @@ update_all_objects = function()
     pending_add_objects = {}
     
     for obj in all(all_collider_object) do
+        bstore(collider_bucket, obj)
         obj:detect_collision()
     end
+    
     for obj in all(all_objects) do
         obj:update()
     end 
