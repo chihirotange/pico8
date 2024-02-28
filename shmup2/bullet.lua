@@ -18,6 +18,7 @@ function create_bullet(_team, _loc, _vel, _spd, _r)
             if loc.x > 128 or loc.x < 0 or loc.y < 0 or loc.y > 128 then
                 self:destroy()
             end
+            -- printh(loc.y)
 
         end,
         on_overlap = function(self, other_obj)

@@ -1,5 +1,4 @@
 function create_particle(_loc, _r, _c, _lifespan)
-    foo = _loc
     local particle = create_object({
         loc = _loc,
         r = _r,
@@ -8,9 +7,6 @@ function create_particle(_loc, _r, _c, _lifespan)
         vel = v_rnd(),
         lifetime = 0, -- unit is frame 
         lifespan = _lifespan + rnd(_lifespan),
-        init = function(self)
-            self.loc = foo
-        end,
         update = function(self)
             local _ENV = self
             lifetime += 1
@@ -33,6 +29,11 @@ function create_particle(_loc, _r, _c, _lifespan)
             circfill(loc.x, loc.y, r, c)
         end
     }, false)
+    particle.loc = _loc
+    particle.r = _r
+    particle.c = _c
+    particle.lifespan = _lifespan
+    particle.lifetime = 0
 end
 
 function create_part_system(_loc, _r, c, ls)

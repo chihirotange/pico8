@@ -3,12 +3,12 @@ ship = create_object({
     vel = v_zero,
     w = 8,
     h = 8,
-    tags = {"ship", "can_deal_dmg"},
+    tags = {"ship"},
     team = _team_player,
     sx = 0,
     sy = 0,
     spr_i = 2,
-    bul_spd = 6,
+    bul_spd = 4,
     default_bul_timer = 7, --unit is frames
     bul_timer = 0,
     update = function(self)
@@ -47,11 +47,10 @@ ship = create_object({
 
         bul_timer -= 1        
 
-        printh(count(bget(collider_bucket, loc)))
     end,
 
     draw = function(self)
         local _ENV = self
         spr(spr_i, loc.x, loc.y)
     end
-}, true)
+})

@@ -4,7 +4,7 @@ function create_enemy(_loc, type)
     foo = _loc
     if type == _type_ene_basic then
         create_object({
-            _col = 4,
+            is_collide = false,
             loc = _loc,
             team = _team_enemy,
             type = _type_ene_basic,
@@ -17,6 +17,7 @@ function create_enemy(_loc, type)
             end,
             update = function(self)
                 local _ENV = self
+                is_collide = false
                 -- _col = 4
                 -- shoot
                 -- if shoot_timer == 0 then
@@ -40,18 +41,23 @@ function create_enemy(_loc, type)
                 local _ENV = self
                 if other_obj.team ~= team
                     and contains(other_obj.tags, "can_deal_dmg") then
-                    -- create_part_system(loc, 10, 8, 20)
+                    create_part_system(loc, 10, 8, 20)
                     -- self:destroy()
-                    _col = 8
                     -- mov_dir = v_rnd()
                     -- mov_spd += 0.5
                 -- else
                     -- _col = 4
+                    -- line(loc.x, loc.y, other_obj.loc.x, other_obj.loc.y)
+                    is_collide = true
                 end
             end,
             draw = function(self)
                 local _ENV = self
-                circfill(loc.x + 4, loc.y + 4, 4, _col)
+                if is_collide then
+                    circfill(loc.x + 4, loc.y + 4, 4, 8)
+                else
+                    circfill(loc.x + 4, loc.y + 4, 4, 4)
+                end
             end
         }, true)
     else

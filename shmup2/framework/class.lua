@@ -6,7 +6,7 @@ all_collider_object = {}
 pool_objects = {}
 pending_add_objects = {}
 
-collider_bucket = {size = 20, prop = "loc"}
+collider_bucket = {size = 10, prop = "loc"}
 
 object_base = setmetatable ({
     loc = v_zero,
@@ -22,8 +22,9 @@ object_base = setmetatable ({
     detect_collision = function(self)
         local _ENV = self
         for i in all(bget(collider_bucket, loc)) do
-            -- printh(count(bget(collider_bucket, loc)))
-            if col(self,i) and not i.pending_destroy then
+            if col(self,i) and not i.pending_destroy and not self.pending_destroy then
+                printh(self.type)
+                printh(i.type)
                 i:on_overlap(self)
             end
         end   
@@ -32,40 +33,70 @@ object_base = setmetatable ({
     end,
     destroy = function(self)
         self.pending_destroy = true
-        add(pool_objects, self)
+    end,
+    draw = function(self)
+
     end
 }, _G)
 object_base.__index = object_base
 
 update_all_objects = function()
-    -- add pending add to object list
-    for pd_obj in all(pool_objects) do
-        del(all_objects, pd_obj)
-        del(all_collider_object, pd_obj)
-        pd_obj = nil
+    for i = #all_objects, 1, -1 do
+        obj = all_objects[i]
+        if obj.pending_destroy then
+            -- obj.pending_destroy = false
+            add(pool_objects, obj)
+            del(all_objects, obj)
+            goto continue
+        end
+        
+        obj:update();
+        if obj.have_collider then 
+            bstore(collider_bucket, obj)
+            obj:detect_collision()
+        end
+        ::continue::
     end
-    -- pool_objects = {}
     for pa_obj in all(pending_add_objects) do
         add(all_objects, pa_obj)
-        if pa_obj.have_collider then
-            add(all_collider_object, pa_obj)
-        end
+        pa_obj:init()
+        pa_obj.pending_destroy = false
+        -- if pa_obj.have_collider then
+        --     add(all_collider_object, pa_obj)
+        -- end
     end
     pending_add_objects = {}
+    -- for obj in all(all_objects) do
+    --     if obj.pending_destroy then
+    --         obj.pending_destroy = false
+    --         add(pool_objects, obj)
+    --     end
+    -- end
+    -- add pending add to object list
+    -- for pd_obj in all(pool_objects) do
+    --     del(all_objects, pd_obj)
+    --     del(all_collider_object, pd_obj)
+    --     pd_obj = nil
+    -- end
+    -- pool_objects = {}
     
-    for obj in all(all_collider_object) do
-        bstore(collider_bucket, obj)
-        obj:detect_collision()
-    end
+    -- for obj in all(all_objects) do
+    --     if not obj.pending_destroy then
+    --         obj:update()
+    --     end
+    -- end 
+    -- for obj in all(all_collider_object) do
+    --     if not obj.pending_destroy then
+    --         bstore(collider_bucket, obj)
+    --         obj:detect_collision()
+    --     end
+    -- end
     
-    for obj in all(all_objects) do
-        obj:update()
-    end 
 end
 
 draw_all_objects = function()
     for obj in all(all_objects) do
-        if obj.draw ~= nil then
+        if not obj.pending_destroy then
             obj:draw()
         end
     end 
@@ -78,11 +109,12 @@ function create_object(tbl, have_collider)
         if obj.type == tbl.type then
             sp_obj = obj
             del(pool_objects, obj)
+            goto continue
         end
     end
+    ::continue::
     setmetatable (sp_obj, object_base)
     add(pending_add_objects, sp_obj)
-    sp_obj:init()
     if have_collider then
         sp_obj.have_collider = true
     end
