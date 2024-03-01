@@ -35,7 +35,7 @@ function create_enemy(_loc, type)
                 end
                 loc = v_add(loc, v_mul(mov_dir, mov_spd))
 
-                -- create_part_system(v_add(loc, vector(4,4)), 3, 8, 15)
+                create_part_system(v_add(loc, vector(4,4)), 3, 8, 15)
             end,
             on_overlap = function(self, other_obj)
                 local _ENV = self
