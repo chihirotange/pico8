@@ -8,9 +8,9 @@ ball_dx = 2
 ball_dy = 2
 
 pad_x = 30
-pad_y = 123
+pad_y = 117
 pad_w = 24
-pad_h = 3
+pad_h = 10
 pad_dx = 15
 pad_s = 4
 function _update()
@@ -30,7 +30,7 @@ function _update()
         local slp
         slp = ball_dx/ball_dy
         ball_dy = -ball_dy
-        sfx(0)
+        -- sfx(0)
     end
     if ball_x > 127 - ball_r or ball_x < 0 + ball_r then
         ball_dx = -ball_dx
@@ -45,6 +45,8 @@ function _draw()
     cls(1)
     circfill(ball_x, ball_y, ball_r, 10)
     rectfill(pad_x, pad_y, pad_x + pad_w, pad_y + pad_h, 7)
+    -- print(ball_edge(pad_x, pad_y, pad_w, pad_h))
+    print(ball_box(pad_x, pad_y, pad_w, pad_h) and ball_edge(pad_x, pad_y, pad_w, pad_h))
 end
 
 -- ball collision check
@@ -62,6 +64,32 @@ function ball_box(box_x, box_y, box_w, box_h)
         return false
     end
     return true
+end
+
+function ball_edge(box_x, box_y, box_w, box_h)
+    local slp = ball_dy / ball_dx
+    local cx, cy
+    -- top right
+    if slp > 0 and ball_dx >= 0 then
+        cx = box_x - ball_x
+        cy = box_y - ball_y
+        if cx >= 0 then return false end
+    -- bottom left
+    elseif slp > 0 and ball_dx < 0 then 
+        cx = box_x + box_w - ball_x
+        cy = box_y + box_h - ball_y
+        if cx <= 0 then return false end
+    -- bottom right
+    elseif slp < 0 and ball_dx >=0 then
+        cx = box_x - ball_x
+        cy = box_y + box_h - ball_y
+    -- top left
+    elseif slp < 0 and ball_dx < 0 then
+        cx = box_x + box_w - ball_x
+        cy = box_y - ball_y
+    end
+    if cy/cx > slp then return true end
+    return false
 end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
