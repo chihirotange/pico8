@@ -1,24 +1,16 @@
 pico-8 cartridge // http://www.pico-8.com
 version 43
 __lua__
-ball_r = 2
-ball_x = 10 + ball_r
-ball_y = 1 + ball_r
-ball_dx = 1.5
-ball_dy = 1.5
-ball_next_x = 0
-ball_next_y = 0
+mode = "start"
 
-pad_x = 10
-pad_y = 97 -- will be calculated on update
-pad_w = 30
-pad_h = 4
-pad_dx = 15
-pad_s = 4
-pad_gap = 1
-is_collide = false
 --comment
 function _update60()
+    if mode == "game" then update_game() end
+    if mode == "start" then update_start() end
+    if mode == "over" then update_over() end
+end
+
+function update_game()
     pad_y = 127 - pad_h - pad_gap
     -- control
     if btn(0) then
@@ -52,19 +44,92 @@ function _update60()
         ball_dx = -ball_dx
         sfx(1)
     end
-    if ball_next_y > 127 - ball_r or ball_next_y < 0 + ball_r then
+
+    
+    if ball_next_y < 9 + ball_r then
         ball_dy = -ball_dy
         sfx(1)
     end
     ball_x = ball_next_x
     ball_y = ball_next_y
     pad_dx *= 0.7
+
+    --ded
+    if ball_next_y > 127 - ball_r then
+        sfx(2)
+        lives -= 1
+        if lives < 0 then
+            over()
+        end
+        serve_ball()
+    end
+end
+
+function over()
+    mode = "over"
+end
+
+function serve_ball()
+    ball_x = ball_r
+    ball_y = 9 + ball_r
+end
+
+function update_start()
+    if btn(5) then start_game() end
+end
+
+function update_over()
+    if btn(5) then start_game() end
 end
 
 function _draw()
+    if mode == "game" then draw_game() end
+    if mode == "start" then draw_start() end
+    if mode == "over" then draw_over() end
+end
+
+function draw_game()
     cls(1)
     circfill(ball_x, ball_y, ball_r, 10)
     rectfill(pad_x, pad_y, pad_x + pad_w, pad_y + pad_h, 7)
+
+    rectfill(0,0,128,7,0)
+    print("lives: " .. lives,1, 1, 7)
+end
+
+function draw_start()
+    cls(1)
+    print("pico hero breakout", 31, 50);
+    print("press ❎ to start", 33, 60);
+end
+
+function start_game()
+    lives = 3
+
+    ball_r = 2
+    ball_x = 10 + ball_r
+    ball_y = 9 + ball_r
+    ball_dx = 1.5
+    ball_dy = 1.5
+    ball_next_x = 0
+    ball_next_y = 0
+
+    pad_x = 10
+    pad_y = 97 -- will be calculated on update
+    pad_w = 25
+    pad_h = 3
+    pad_s = 3
+    pad_dx = 0
+    pad_gap = 2
+    is_collide = false
+
+    mode = "game"
+end
+
+function draw_over()
+    rectfill(0, 60, 128, 76, 8)
+    print("game over", 50, 62, 7)
+    print("press ❎ to restart", 30, 70, 7)
 end
 
 -- ball collision check
@@ -262,5 +327,6 @@ eee0eee0eee0eee0eee0eee000000000000000000000000000000000000000000000000000000000
 __map__
 0000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 __sfx__
-000100001605016050160501605016050160500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000100001905016050160501605016050160500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000100001855018550170501705000500005000050000500005000050000500005000050000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000400001335011350103500e3500c3500c3500c3500c3500c3500030000300003000030000300003000030000300003000030000300003000000000000000000000000000000000000000000000000000000000
