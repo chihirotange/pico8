@@ -105,7 +105,7 @@ function ball_edge(box_x, box_y, box_w, box_h)
     elseif slp < 0 and ball_dx < 0 then
         dx = box_x + box_w - ball_x
         dy = box_y - ball_y
-        if dx < 0 then return false
+        if dx >= 0 then return false
         elseif dy/dx > slp then
             return true
         end
