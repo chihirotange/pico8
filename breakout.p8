@@ -4,8 +4,10 @@ __lua__
 ball_r = 2
 ball_x = 10 + ball_r
 ball_y = 1 + ball_r
-ball_dx = 2
-ball_dy = 2
+ball_dx = 5
+ball_dy = 5
+ball_next_x = 0
+ball_next_y = 0
 
 pad_x = 10
 pad_y = 97 -- will be calculated on update
@@ -23,13 +25,14 @@ function _update()
     if btn(1) then
         pad_dx = pad_s;
     end
+
+    ball_next_x = ball_x + ball_dx
+    ball_next_y = ball_y + ball_dy
     pad_x += pad_dx 
     --limit pad to the left and right bound
-    pad_x = min(max(0, pad_x), 127 - pad_w)
-    ball_x += ball_dx
-    ball_y += ball_dy
+    pad_x = mid(0, pad_x, 127 - pad_w)
     -- check if ball hits pad
-    if ball_box(pad_x, pad_y, pad_w, pad_h) then
+    if ball_box(ball_next_x, ball_next_y, pad_x, pad_y, pad_w, pad_h) then
         if not is_collide then
             -- ball_dy = -ball_dy
             if ball_edge(pad_x, pad_y, pad_w, pad_h) then
@@ -42,12 +45,14 @@ function _update()
     else
         is_collide = false
     end
-    if ball_x > 127 - ball_r or ball_x < 0 + ball_r then
+    if ball_next_x > 127 - ball_r or ball_next_x < 0 + ball_r then
         ball_dx = -ball_dx
     end
-    if ball_y > 127 - ball_r or ball_y < 0 + ball_r then
+    if ball_next_y > 127 - ball_r or ball_next_y < 0 + ball_r then
         ball_dy = -ball_dy
     end
+    ball_x = ball_next_x
+    ball_y = ball_next_y
     pad_dx *= 0.7
 end
 
@@ -58,17 +63,17 @@ function _draw()
 end
 
 -- ball collision check
-function ball_box(box_x, box_y, box_w, box_h)
-    if ball_y - ball_r >= box_y + box_h then
+function ball_box(b_x, b_y, box_x, box_y, box_w, box_h)
+    if b_y - ball_r >= box_y + box_h then
         return false
     end
-    if ball_y + ball_r <= box_y then
+    if b_y + ball_r <= box_y then
         return false
     end
-    if ball_x - ball_r >= box_x + box_w then
+    if b_x - ball_r >= box_x + box_w then
         return false
     end
-    if ball_x + ball_r <= box_x then
+    if b_x + ball_r <= box_x then
         return false
     end
     return true
