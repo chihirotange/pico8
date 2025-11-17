@@ -37,6 +37,7 @@ function update_game()
         end
         is_collide = true
         sfx(0)
+        scores += 1
     else
         is_collide = false
     end
@@ -44,7 +45,6 @@ function update_game()
         ball_dx = -ball_dx
         sfx(1)
     end
-
     
     if ball_next_y < 9 + ball_r then
         ball_dy = -ball_dy
@@ -93,8 +93,10 @@ function draw_game()
     circfill(ball_x, ball_y, ball_r, 10)
     rectfill(pad_x, pad_y, pad_x + pad_w, pad_y + pad_h, 7)
 
-    rectfill(0,0,128,7,0)
+    --info bar
+    rectfill(0,0,128,7,4)
     print("lives: " .. lives,1, 1, 7)
+    print("scores: " .. scores, 80, 1, 7)
 end
 
 function draw_start()
@@ -105,6 +107,7 @@ end
 
 function start_game()
     lives = 3
+    scores = 0
 
     ball_r = 2
     ball_x = 10 + ball_r
