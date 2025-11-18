@@ -3,11 +3,40 @@ version 43
 __lua__
 mode = "start"
 
+--bricks
+brick_x = {}
+brick_y = {}
+brick_v = {}
+-- num of brick on one row
+brick_n = 60
+brick_w = flr(128/brick_n)
+--margins
+brick_mh = flr((128 - brick_w * brick_n)/2)
+brick_mv = 12
+brick_h = 3
 --comment
 function _update60()
     if mode == "game" then update_game() end
     if mode == "start" then update_start() end
     if mode == "over" then update_over() end
+end
+
+function build_brick()
+    local i
+    for i = 1,2000 do
+        add(brick_x, brick_mh + ((i-1)%brick_n) * brick_w)
+        -- add(brick_y, 19)
+        add(brick_y, brick_mv + flr((i-1)/brick_n) * brick_h)
+        add(brick_v, true)
+    end
+end
+
+function draw_brick()
+    for i = 1, #brick_x do
+        if brick_v[i] do
+            rectfill(brick_x[i] + 1, brick_y[i] + 1, brick_x[i] + brick_w - 1, brick_y[i] + brick_h - 1, 9)
+        end
+    end
 end
 
 function update_game()
@@ -41,6 +70,23 @@ function update_game()
     else
         is_collide = false
     end
+
+    -- check if ball hits bricks
+    local i
+    for i = 1,#brick_x do
+        if brick_v[i] and ball_box(ball_next_x, ball_next_y, brick_x[i], brick_y[i], brick_w, brick_h) then
+            if ball_edge(brick_x[i], brick_y[i], brick_w, brick_h) then
+                ball_dx = -ball_dx
+            else
+                ball_dy = -ball_dy
+            end
+            brick_v[i] = false
+            sfx(3)
+            scores += 10
+        end
+    end
+    
+    -- check ball hits edges
     if ball_next_x > 127 - ball_r or ball_next_x < 0 + ball_r then
         ball_dx = -ball_dx
         sfx(1)
@@ -53,7 +99,6 @@ function update_game()
     ball_x = ball_next_x
     ball_y = ball_next_y
     pad_dx *= 0.7
-
     --ded
     if ball_next_y > 127 - ball_r then
         sfx(2)
@@ -93,6 +138,8 @@ function draw_game()
     circfill(ball_x, ball_y, ball_r, 10)
     rectfill(pad_x, pad_y, pad_x + pad_w, pad_y + pad_h, 7)
 
+    draw_brick()
+
     --info bar
     rectfill(0,0,128,7,4)
     print("lives: " .. lives,1, 1, 7)
@@ -106,6 +153,7 @@ function draw_start()
 end
 
 function start_game()
+    build_brick()
     lives = 3
     scores = 0
 
@@ -137,19 +185,11 @@ end
 
 -- ball collision check
 function ball_box(b_x, b_y, box_x, box_y, box_w, box_h)
-    if b_y - ball_r >= box_y + box_h then
-        return false
-    end
-    if b_y + ball_r <= box_y then
-        return false
-    end
-    if b_x - ball_r >= box_x + box_w then
-        return false
-    end
-    if b_x + ball_r <= box_x then
-        return false
-    end
-    return true
+    return
+    b_y - ball_r < box_y + box_h and
+    b_y + ball_r > box_y and
+    b_x - ball_r < box_x + box_w and
+    b_x + ball_r > box_x
 end
 
 function ball_edge(box_x, box_y, box_w, box_h)
@@ -330,6 +370,7 @@ eee0eee0eee0eee0eee0eee000000000000000000000000000000000000000000000000000000000
 __map__
 0000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 __sfx__
-000100001905016050160501605016050160500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00010000190501605016050160501605016050000000000000000000000000000000000003d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000100001855018550170501705000500005000050000500005000050000500005000050000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000400001335011350103500e3500c3500c3500c3500c3500c3500030000300003000030000300003000030000300003000030000300003000000000000000000000000000000000000000000000000000000000
+000100002a3502a350283501c3501d350283000030000300003000030000300003000030000300003000030000300003000030000300003000030000300003000030000300003000030000300003000030000300
