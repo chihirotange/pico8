@@ -2,19 +2,16 @@ pico-8 cartridge // http://www.pico-8.com
 version 43
 __lua__
 mode = "start"
-
---bricks
-brick_x = {}
-brick_y = {}
-brick_v = {}
 -- num of brick on one row
-brick_n = 12
+brick_n = 60
 brick_w = flr(128/brick_n)
 --margins
 brick_mh = flr((128 - brick_w * brick_n)/2)
-brick_mv = 12
-brick_h = 6
+brick_mv = 20
+brick_h = 2
 --comment
+
+ball_dx, ball_dy = 0, 0
 function _update60()
     if mode == "game" then update_game() end
     if mode == "start" then update_start() end
@@ -22,13 +19,18 @@ function _update60()
 end
 
 function build_brick()
-    local i
-    for i = 1,24 do
+    brick_x = {}
+    brick_y = {}
+    brick_v = {}
+    for i = 1,2000 do
         add(brick_x, brick_mh + ((i-1)%brick_n) * brick_w)
         -- add(brick_y, 19)
         add(brick_y, brick_mv + flr((i-1)/brick_n) * brick_h)
         add(brick_v, true)
     end
+end
+
+function update_brick()
 end
 
 function draw_brick()
@@ -40,13 +42,16 @@ function draw_brick()
 end
 
 function update_game()
+    update_brick()
     pad_y = 127 - pad_h - pad_gap
     -- control
     if btn(0) then
         pad_dx = -pad_s;
+        if sticky then ball_dx = -ball_s end
     end
     if btn(1) then
         pad_dx = pad_s;
+        if sticky then ball_dx = ball_s end
     end
 
     ball_next_x = ball_x + ball_dx
@@ -54,64 +59,78 @@ function update_game()
     pad_x += pad_dx 
     --limit pad to the left and right bound
     pad_x = mid(0, pad_x, 127 - pad_w)
-    -- check if ball hits pad
-    if ball_box(ball_next_x, ball_next_y, pad_x, pad_y, pad_w, pad_h) then
-        if not is_collide then
-            -- ball_dy = -ball_dy
-            if ball_edge(pad_x, pad_y, pad_w, pad_h) then
-                ball_dx = -ball_dx
-            else
-                ball_dy = -ball_dy
-            end
-        end
-        is_collide = true
-        sfx(0)
-        scores += 1
-    else
-        is_collide = false
-    end
 
-    -- check if ball hits bricks
-    local i
-    for i = 1,#brick_x do
-        if brick_v[i] and ball_box(ball_next_x, ball_next_y, brick_x[i], brick_y[i], brick_w, brick_h) then
-            if not brick_hit then
-                if ball_edge(brick_x[i], brick_y[i], brick_w, brick_h) then
+    if sticky and btnp(4) then
+        sticky = false
+    end
+    
+    if sticky then
+        ball_x = pad_x + pad_w/2
+        ball_y = pad_y - ball_r - 1
+    else
+        -- check if ball hits pad
+        if ball_box(ball_next_x, ball_next_y, pad_x, pad_y, pad_w, pad_h) then
+            -- ball_dy = -abs(ball_dy)
+            -- end
+            if not is_collide then
+                -- if abs(pad_dx) > 0 then
+                    -- ball_dx, ball_dy = change_direction(ball_dx + pad_dx, ball_dy + ball_s, ball_s) 
+                -- end
+                -- ball_dy = -abs(ball_dy)
+                if ball_edge(pad_x, pad_y, pad_w, pad_h) then
                     ball_dx = -ball_dx
                 else
                     ball_dy = -ball_dy
                 end
-                brick_hit = true
             end
-            brick_v[i] = false
-            sfx(3)
-            scores += 10
+            is_collide = true
+            sfx(0)
+            scores += 1
+        else
+            is_collide = false
+        end
+
+        -- check if ball hits bricks
+        for i = 1,#brick_x do
+            if brick_v[i] and ball_box(ball_next_x, ball_next_y, brick_x[i], brick_y[i], brick_w, brick_h) then
+                if not brick_hit then
+                    if ball_edge(brick_x[i], brick_y[i], brick_w, brick_h) then
+                        ball_dx = -ball_dx
+                    else
+                        ball_dy = -ball_dy
+                    end
+                    brick_hit = true
+                end
+                brick_v[i] = false
+                sfx(3)
+                scores += 10
+            end
+        end
+        brick_hit = false
+        
+        -- check ball hits edges
+        if ball_next_x > 127 - ball_r or ball_next_x < 0 + ball_r then
+            ball_dx = -ball_dx
+            sfx(1)
+        end
+        
+        if ball_next_y < 9 + ball_r then
+            ball_dy = -ball_dy
+            sfx(1)
+        end
+        --dead
+        ball_x = ball_next_x
+        ball_y = ball_next_y
+        if ball_next_y > 127 - ball_r then
+            sfx(2)
+            lives -= 1
+            if lives < 0 then
+                over()
+            end
+            serve_ball()
         end
     end
-    brick_hit = false
-    
-    -- check ball hits edges
-    if ball_next_x > 127 - ball_r or ball_next_x < 0 + ball_r then
-        ball_dx = -ball_dx
-        sfx(1)
-    end
-    
-    if ball_next_y < 9 + ball_r then
-        ball_dy = -ball_dy
-        sfx(1)
-    end
-    ball_x = ball_next_x
-    ball_y = ball_next_y
-    pad_dx *= 0.7
-    --ded
-    if ball_next_y > 127 - ball_r then
-        sfx(2)
-        lives -= 1
-        if lives < 0 then
-            over()
-        end
-        serve_ball()
-    end
+    pad_dx *= 0.8
 end
 
 function over()
@@ -119,8 +138,12 @@ function over()
 end
 
 function serve_ball()
-    ball_x = ball_r
-    ball_y = 9 + ball_r
+    sticky = true
+    ball_x = pad_x + pad_w/2
+    ball_y = pad_y - ball_r - 1
+    ball_dx = 1
+    ball_dy = -1
+    ball_s = sqrt(ball_dx^2 + ball_dy^2)
 end
 
 function update_start()
@@ -137,17 +160,27 @@ function _draw()
     if mode == "over" then draw_over() end
 end
 
+function draw_debug()
+    print(ball_dx .. " - " .. ball_dy, 1, 10)
+    print(is_collide, 1, 18)
+end
+
 function draw_game()
     cls(1)
+    --ball serve preview
+    if sticky then
+        line(ball_x, ball_y, ball_x + ball_dx * 5, ball_y - abs(ball_dy) * 5, 8)
+    end
     circfill(ball_x, ball_y, ball_r, 10)
     rectfill(pad_x, pad_y, pad_x + pad_w, pad_y + pad_h, 7)
-
     draw_brick()
-
     --info bar
     rectfill(0,0,128,7,4)
     print("lives: " .. lives,1, 1, 7)
     print("scores: " .. scores, 80, 1, 7)
+
+    --debug
+    draw_debug()
 end
 
 function draw_start()
@@ -160,12 +193,11 @@ function start_game()
     build_brick()
     lives = 3
     scores = 0
+    sticky = true
 
     ball_r = 2
     ball_x = 10 + ball_r
     ball_y = 9 + ball_r
-    ball_dx = 1.5
-    ball_dy = 1.5
     ball_next_x = 0
     ball_next_y = 0
     brick_hit = false
@@ -180,6 +212,7 @@ function start_game()
     is_collide = false
 
     mode = "game"
+    serve_ball()
 end
 
 function draw_over()
@@ -234,6 +267,11 @@ function ball_edge(box_x, box_y, box_w, box_h)
         end
     end
     return false
+end
+
+function change_direction(x, y, speed)
+    local mag = sqrt(x^2 + y^2)
+    return x/mag * speed, y/mag * speed
 end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -377,5 +415,5 @@ __map__
 __sfx__
 00010000190501605016050160501605016050000000000000000000000000000000000003d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000100001855018550170501705000500005000050000500005000050000500005000050000500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-000400001335011350103500e3500c3500c3500c3500c3500c3500030000300003000030000300003000030000300003000030000300003000000000000000000000000000000000000000000000000000000000
-000100002a3502a350283501c3501d350283000030000300003000030000300003000030000300003000030000300003000030000300003000030000300003000030000300003000030000300003000030000300
+000400000e0500e0500e0500e05000300003000030000300003000030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000100000e3200e3100e3100e31000300003000030000300003000030000300003000030000300003000030000300003000030000300003000030000300003000030000300003000030000300003000030000300
