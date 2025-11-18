@@ -8,12 +8,12 @@ brick_x = {}
 brick_y = {}
 brick_v = {}
 -- num of brick on one row
-brick_n = 60
+brick_n = 12
 brick_w = flr(128/brick_n)
 --margins
 brick_mh = flr((128 - brick_w * brick_n)/2)
 brick_mv = 12
-brick_h = 3
+brick_h = 6
 --comment
 function _update60()
     if mode == "game" then update_game() end
@@ -23,7 +23,7 @@ end
 
 function build_brick()
     local i
-    for i = 1,2000 do
+    for i = 1,24 do
         add(brick_x, brick_mh + ((i-1)%brick_n) * brick_w)
         -- add(brick_y, 19)
         add(brick_y, brick_mv + flr((i-1)/brick_n) * brick_h)
@@ -75,16 +75,20 @@ function update_game()
     local i
     for i = 1,#brick_x do
         if brick_v[i] and ball_box(ball_next_x, ball_next_y, brick_x[i], brick_y[i], brick_w, brick_h) then
-            if ball_edge(brick_x[i], brick_y[i], brick_w, brick_h) then
-                ball_dx = -ball_dx
-            else
-                ball_dy = -ball_dy
+            if not brick_hit then
+                if ball_edge(brick_x[i], brick_y[i], brick_w, brick_h) then
+                    ball_dx = -ball_dx
+                else
+                    ball_dy = -ball_dy
+                end
+                brick_hit = true
             end
             brick_v[i] = false
             sfx(3)
             scores += 10
         end
     end
+    brick_hit = false
     
     -- check ball hits edges
     if ball_next_x > 127 - ball_r or ball_next_x < 0 + ball_r then
@@ -164,6 +168,7 @@ function start_game()
     ball_dy = 1.5
     ball_next_x = 0
     ball_next_y = 0
+    brick_hit = false
 
     pad_x = 10
     pad_y = 97 -- will be calculated on update
